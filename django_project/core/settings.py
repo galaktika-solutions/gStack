@@ -29,11 +29,14 @@ BASE_URL = os.environ.get('HOST_NAME')
 # Email related settings
 ADMINS = [('IT Team', os.environ['ADMIN_EMAIL'])]
 EMAIL_BACKEND = 'mailer.backend.DbBackend'
-MAILER_EMAIL_BACKEND = 'djangoproject.rewrite_email_backend.EmailBackend'
-SERVER_EMAIL = os.environ['SERVER_EMAIL']
+MAILER_EMAIL_BACKEND = 'core.rewrite_email_backend.EmailBackend'
+# SERVER_EMAIL = os.environ['SERVER_EMAIL']
 EMAIL_SUBJECT_PREFIX = '[%s] ' % os.environ.get('HOST_NAME')
 EMAIL_HOST = os.environ['EMAIL_HOST']
 EMAIL_PORT = int(os.environ['EMAIL_PORT'])
+EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+DEFAULT_FROM_EMAIL = os.environ['DEFAULT_FROM_EMAIL']
 EMAIL_TIMEOUT = 5
 MAILER_LOCK_PATH = '/tmp/mailer_lock'
 
