@@ -50,6 +50,8 @@ RUN groupadd -r nginx --gid=4430 && useradd -r -g nginx --uid=4430 nginx
 RUN apt-get install -y nginx
 RUN ln -sf /dev/stdout /var/log/nginx/access.log
 
+RUN pip install --no-cache-dir django-mailer==1.2.4
+
 # copy
 COPY / /src
 WORKDIR /src
