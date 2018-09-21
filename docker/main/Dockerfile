@@ -43,14 +43,14 @@ RUN pip install --no-cache-dir \
   git+https://github.com/galaktika-solutions/django-sql-explorer.git \
   XlsxWriter==1.1.0 \
   django-extensions==2.1.2 \
-  coverage==4.5.1
+  coverage==4.5.1 \
+  periodtask==0.5.5 \
+  django-mailer==1.2.5
 
 # nginx
 RUN groupadd -r nginx --gid=4430 && useradd -r -g nginx --uid=4430 nginx
 RUN apt-get install -y nginx
 RUN ln -sf /dev/stdout /var/log/nginx/access.log
-
-RUN pip install --no-cache-dir django-mailer==1.2.4
 
 # copy
 COPY / /src
