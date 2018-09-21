@@ -37,6 +37,9 @@ test:
 test_keepdb:
 	docker-compose run --rm django test keepdb
 
+coverage:
+	docker-compose run --rm django coverage
+
 migrate:
 	docker-compose run --rm django with_django django-admin migrate
 

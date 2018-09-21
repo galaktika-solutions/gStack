@@ -45,7 +45,8 @@ RUN pip install --no-cache-dir \
   django-extensions==2.1.2 \
   coverage==4.5.1 \
   periodtask==0.5.5 \
-  django-mailer==1.2.5
+  django-mailer==1.2.5 \
+  coverage==4.5.1
 
 # nginx
 RUN groupadd -r nginx --gid=4430 && useradd -r -g nginx --uid=4430 nginx

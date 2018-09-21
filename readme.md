@@ -23,6 +23,7 @@ EMAIL_USE_TLS=True
 ADMIN_EMAIL=galaktika.admins@gmail.com
 DEFAULT_FROM_EMAIL=galaktika.bot@gmail.com
 SERVER_EMAIL=galaktika.bot@gmail.com
+REWRITE_RECIPIENTS=your_email@gmail.com
 
 SEND_MAIL_TASK=True
 RETRY_DEFERRED_TASK=True
@@ -40,5 +41,4 @@ EMAIL_HOST_PASSWORD=
 ```
 
 TODO
-- Coverage + test running
 - Documentation generations
