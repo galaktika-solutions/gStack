@@ -39,7 +39,15 @@ ENV PYTHONUNBUFFERED 1
 RUN groupadd -r django --gid=8000 && useradd -r -m -g django --uid=8000 django
 ENV DJANGO_SETTINGS_MODULE core.settings
 
-# uwsgi
+# nginx
+RUN groupadd -r nginx --gid=4430 && useradd -r -g nginx --uid=4430 nginx
+RUN apt-get update && apt-get install -y nginx
+RUN ln -sf /dev/stdout /var/log/nginx/access.log
+
+# redis
+RUN groupadd -r redis --gid=6379 && useradd -r -g redis --uid=6379 redis
+RUN apt-get install -y redis
+
 RUN apt-get update && apt-get install -y \
   build-essential \
   python3.6-dev \
@@ -67,16 +75,8 @@ RUN pip install --no-cache-dir \
   djangorestframework==3.9.0 \
   django-filter==2.0.0 \
   django-rest-auth==0.9.3 \
-  Twisted[tls,http2]==18.7.0
-
-# nginx
-RUN groupadd -r nginx --gid=4430 && useradd -r -g nginx --uid=4430 nginx
-RUN apt-get update && apt-get install -y nginx
-RUN ln -sf /dev/stdout /var/log/nginx/access.log
-
-# redis
-RUN groupadd -r redis --gid=6379 && useradd -r -g redis --uid=6379 redis
-RUN apt-get install -y redis
+  Twisted[tls,http2]==18.7.0 \
+  django-rosetta==0.8.1
 
 # copy
 COPY / /src

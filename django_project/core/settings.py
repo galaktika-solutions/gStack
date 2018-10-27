@@ -1,6 +1,7 @@
 # coding: utf-8
 # Django core and 3rd party imports
 import os
+from django.utils.translation import ugettext_lazy as _
 
 # Project imports
 from .utils import read_secret
@@ -60,6 +61,7 @@ INSTALLED_APPS = [
 
     # 3rd party packages -> Load them last so we can override them
     'explorer',
+    'rosetta'
 ]
 
 MIDDLEWARE = [
@@ -192,13 +194,22 @@ USE_I18N = True
 USE_L10N = False
 USE_TZ = True
 
-# LANGUAGES = (
-#     ('en', _('English')),
-#     ('hu', _('Hungarian')),
-# )
+LANGUAGES = (
+    ('en', _('English')),
+    ('hu', _('Hungarian')),
+)
 
-# LOCALE_PATHS = ('/data/files/locale/',)
-# MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+LOCALE_PATHS = ('/data/files/locale/',)
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+# ROSETTA
+ROSETTA_MESSAGES_PER_PAGE = 50
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'cache_table',
+    }
+}
 
 DATE_FORMAT = ('Y-m-d')
 DATETIME_FORMAT = ('Y-m-d H:i:s')
@@ -218,16 +229,6 @@ FILE_UPLOAD_PERMISSIONS = 0o640
 
 # The login page is also the start page too
 # LOGIN_URL =
-
-# List of the admins
-# ADMINS = (('IS', 'is@vertis.com'),)
-
-# DEFAULT_FROM_EMAIL =
-# EMAIL_HOST =
-# EMAIL_PORT =
-# SERVER_EMAIL =
-# EMAIL_BACKEND =
-
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SESSION_COOKIE_SECURE = True

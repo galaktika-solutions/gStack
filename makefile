@@ -53,6 +53,9 @@ migrate:
 makemigrations:
 	docker-compose run --rm django with_django django-admin makemigrations
 
+makemessages:
+	docker-compose run --rm django makemessages
+
 .PHONY: backup
 backup:
 	docker-compose run --rm backup backup
