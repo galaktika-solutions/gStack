@@ -4,6 +4,7 @@ from django.urls import path, include
 from django.contrib import admin
 from django.conf import settings
 from rest_framework.routers import SimpleRouter
+from django.conf.urls.static import static
 
 # Project imports
 from .views import KeyValueStoreViewset, DjangoChannelsTestView
@@ -34,7 +35,7 @@ urlpatterns = [
     path('api/', include((api_patterns, 'api'), namespace='api')),
     path('rest-auth/', include('rest_auth.urls')),
     path('django-channels/test/', DjangoChannelsTestView.as_view())
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     import debug_toolbar

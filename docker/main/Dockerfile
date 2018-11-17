@@ -19,15 +19,6 @@ RUN wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz \
     && rm -rf /usr/share/man/
 RUN find /texlive/texmf-var -type d -exec chmod 777 {} +
 
-# postgres
-ENV PG_MAJOR 10
-RUN groupadd -r postgres --gid=999 && useradd -r -g postgres --uid=999 postgres
-RUN apt-get update && apt-get install -y postgresql-common
-RUN sed -ri 's/#(create_main_cluster) .*$/\1 = false/' /etc/postgresql-common/createcluster.conf
-RUN apt-get update && apt-get install -y postgresql-$PG_MAJOR
-ENV PATH $PATH:/usr/lib/postgresql/$PG_MAJOR/bin
-ENV PGDATA /data/postgres
-
 # python
 RUN apt-get update && apt-get install -y python3.6 python3-venv
 RUN python3.6 -m venv /python
@@ -45,6 +36,24 @@ RUN apt-get update && apt-get install -y \
   python3.6-dev \
   gcc \
   git
+
+# nginx
+RUN groupadd -r nginx --gid=4430 && useradd -r -g nginx --uid=4430 nginx
+RUN apt-get update && apt-get install -y nginx
+RUN ln -sf /dev/stdout /var/log/nginx/access.log
+
+# redis
+RUN groupadd -r redis --gid=6379 && useradd -r -g redis --uid=6379 redis
+RUN apt-get install -y redis
+
+# postgres
+ENV PG_MAJOR 10
+RUN groupadd -r postgres --gid=999 && useradd -r -g postgres --uid=999 postgres
+RUN apt-get update && apt-get install -y postgresql-common
+RUN sed -ri 's/#(create_main_cluster) .*$/\1 = false/' /etc/postgresql-common/createcluster.conf
+RUN apt-get update && apt-get install -y postgresql-$PG_MAJOR
+ENV PATH $PATH:/usr/lib/postgresql/$PG_MAJOR/bin
+ENV PGDATA /data/postgres
 
 # pip packages
 RUN pip install --no-cache-dir \
@@ -67,18 +76,10 @@ RUN pip install --no-cache-dir \
   djangorestframework==3.9.0 \
   django-filter==2.0.0 \
   django-rest-auth==0.9.3 \
-  Twisted[tls,http2]==18.7.0
-
-# nginx
-RUN groupadd -r nginx --gid=4430 && useradd -r -g nginx --uid=4430 nginx
-RUN apt-get update && apt-get install -y nginx
-RUN ln -sf /dev/stdout /var/log/nginx/access.log
-
-# redis
-RUN groupadd -r redis --gid=6379 && useradd -r -g redis --uid=6379 redis
-RUN apt-get install -y redis
-
-run pip install --no-cache-dir premailer==3.2.0
+  Twisted[tls,http2]==18.7.0 \
+  premailer==3.2.0 \
+  django-resized==0.3.9 \
+  pillow==5.0.0
 
 # copy
 COPY / /src

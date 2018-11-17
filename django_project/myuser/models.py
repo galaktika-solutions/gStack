@@ -8,6 +8,9 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
+from django_resized import ResizedImageField
+from core.settings import STATIC_URL
+import uuid
 import logging
 log = logging.getLogger('django')
 
@@ -73,6 +76,10 @@ class MyUserManager(BaseUserManager):
         return user
 
 
+def media_file_path(instance, filename):
+    return 'avatar/{0}'.format(uuid.uuid4().hex.upper())
+
+
 class User(AbstractBaseUser):
     email = models.EmailField(_('Email'), max_length=80, unique=True)
     first_name = models.CharField(_('First Name'), max_length=40, blank=True)
@@ -81,6 +88,12 @@ class User(AbstractBaseUser):
     is_staff = models.BooleanField(_('Is Staff'), default=True)
     is_admin = models.BooleanField(_('Is Admin'), default=False)
     last_login = models.DateTimeField(_('Last Login'), blank=True, null=True),
+    full_photo = ResizedImageField(
+        _('Full Photo'), size=[150, 150],
+        upload_to=media_file_path, blank=True,)
+    small_photo = ResizedImageField(
+        _('Small Photo'), size=[29, 29],
+        upload_to=media_file_path, blank=True,)
     objects = MyUserManager()
 
     USERNAME_FIELD = 'email'
