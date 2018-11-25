@@ -76,9 +76,8 @@ RUN pip install --no-cache-dir \
   django-filter==2.0.0 \
   django-rest-auth==0.9.3 \
   Twisted[tls,http2]==18.7.0 \
-  django-rosetta==0.8.1
-
-run pip install --no-cache-dir premailer==3.2.0
+  django-rosetta==0.8.1 \
+  premailer==3.2.0
 
 # copy
 COPY / /src

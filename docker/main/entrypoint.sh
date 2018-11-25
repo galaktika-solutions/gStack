@@ -214,7 +214,6 @@ fi
 ################################################################################
 if [ "$1" = 'makemessages' ]; then
   prepare_django
-  docker/gprun.py -u django -s SIGINT django-admin createcachetable
 
   locales=$(python -c '
 import django
@@ -222,9 +221,7 @@ from django.conf import settings
 django.setup()
 print(" ".join(["-l %s" % k for k, v in settings.LANGUAGES if k != "en"]), end="")')
 
-  # owner="$(stat -c %u:%g .)"
 
-  # find src -type d -exec chown django:django {} +
   docker/gprun.py -u django django-admin makemessages \
     $locales \
     --extension=html,py,tex \
@@ -233,17 +230,13 @@ print(" ".join(["-l %s" % k for k, v in settings.LANGUAGES if k != "en"]), end="
     --ignore=*js_client/* \
     --ignore=docs/* \
     --ignore=static/*
-  # find src -type d -exec chown "$owner" {} +
 
-  # cd /src/static
-  # chown django:django .
   docker/gprun.py -u django django-admin makemessages --domain djangojs \
     $locales \
     -v 2 \
     --ignore=docs/* \
     --ignore=js_client/build/* \
     --ignore=*node_modules/*
-  # chown "$owner" .
 
   exit 0
 fi

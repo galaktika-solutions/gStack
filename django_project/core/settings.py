@@ -236,7 +236,7 @@ FILE_UPLOAD_PERMISSIONS = 0o640
 # LOGIN_REDIRECT_URL =
 
 # The login page is also the start page too
-# LOGIN_URL =
+LOGIN_URL = '/admin/'
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SESSION_COOKIE_SECURE = True
