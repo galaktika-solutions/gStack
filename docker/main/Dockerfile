@@ -78,6 +78,8 @@ RUN pip install --no-cache-dir \
   Twisted[tls,http2]==18.7.0 \
   django-rosetta==0.8.1
 
+run pip install --no-cache-dir premailer==3.2.0
+
 # copy
 COPY / /src
 WORKDIR /src
