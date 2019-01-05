@@ -157,16 +157,14 @@ class User(AbstractBaseUser):
             }
 
             template = 'email_templates/new_user.html'
-            body = Premailer(
-                loader.render_to_string(template, content)
-            ).transform()
+            body = Premailer(loader.render_to_string(template, content))
+            body = body.transform()
             send_html_mail(
                 email_subject,
                 body,
                 body,
                 settings.DEFAULT_FROM_EMAIL,
-                [to_address],
-
+                [to_address]
             )
 
     @staticmethod
