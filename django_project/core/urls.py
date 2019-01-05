@@ -5,6 +5,7 @@ from django.contrib import admin
 from django.conf import settings
 from rest_framework.routers import SimpleRouter
 from django.conf.urls.static import static
+from django.views.i18n import JavaScriptCatalog
 
 # Project imports
 from .views import KeyValueStoreViewset, DjangoChannelsTestView
@@ -34,7 +35,14 @@ urlpatterns = [
     path('explorer/', include('explorer.urls')),
     path('api/', include((api_patterns, 'api'), namespace='api')),
     path('rest-auth/', include('rest_auth.urls')),
-    path('django-channels/test/', DjangoChannelsTestView.as_view())
+    path('django-channels/test/', DjangoChannelsTestView.as_view()),
+    path('rosetta/', include('rosetta.urls')),
+    path('i18n/', include('django.conf.urls.i18n')),
+    path(
+        'jsi18n/',
+        JavaScriptCatalog.as_view(packages=[()]),
+        name='javascript-catalog'
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
