@@ -5,7 +5,7 @@
 {% block nav-global %}
 <form style="display: inline-block" action="/i18n/setlang/" method="post">
   {% csrf_token %}
-  <label>{% trans "Language" %}</label>
+  <span>{% trans "Language" %}</span>
   <select name="language">
     {% for lang in LANGUAGES %}
     <option value="{{lang.0}}" {% if lang.0 == LANGUAGE_CODE %} selected{% endif %}>{{lang.1}}</option>

@@ -45,15 +45,6 @@ RUN apt-get update && apt-get install -y \
   gcc \
   git
 
-# nginx
-RUN groupadd -r nginx --gid=4430 && useradd -r -g nginx --uid=4430 nginx
-RUN apt-get update && apt-get install -y nginx
-RUN ln -sf /dev/stdout /var/log/nginx/access.log
-
-# redis
-RUN groupadd -r redis --gid=6379 && useradd -r -g redis --uid=6379 redis
-RUN apt-get install -y redis
-
 # postgres
 ENV PG_MAJOR 10
 RUN groupadd -r postgres --gid=999 && useradd -r -g postgres --uid=999 postgres

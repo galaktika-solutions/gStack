@@ -180,23 +180,6 @@ class UserPermission(models.Model):
         return "#%s User: #%s Permission: #%s" % (
             self.id, self.user.email, self.permission.name)
 
-    def delete(self):
-        deleted_id = self.id
-        super(UserPermission, self).delete()
-        from notification.models import UserSubscription
-        try:
-            qs = UserSubscription.objects.all()
-            qs = qs.get(notification__permission=self.permission,
-                        user=self.user)
-            perm_ok = self.user.has_perm(
-                self.permission.name, ignore_admin=True, skip_u=deleted_id)
-
-            if not perm_ok:
-                qs.delete()
-                log.info('Subscription deleted!')
-        except UserSubscription.DoesNotExist:
-            log.info('No Subscription to delete!')
-
 
 class Membership(models.Model):
     user = models.ForeignKey(
@@ -211,20 +194,3 @@ class Membership(models.Model):
 
     def __str__(self):
         return '%s %s' % (self.user.full_name, self.group.name)
-
-    def delete(self):
-        deleted_id = self.id
-        super(Membership, self).delete()
-        from notification.models import UserSubscription
-        for gp in self.group.grouppermission_set.all():
-            try:
-                qs = UserSubscription.objects.all()
-                qs = qs.get(notification__permission=gp.permission,
-                            user=self.user)
-                perm_ok = self.user.has_perm(
-                    gp.permission.name, ignore_admin=True, skip_m=deleted_id)
-                if not perm_ok:
-                    qs.delete()
-                    log.info('Subscription deleted!')
-            except UserSubscription.DoesNotExist:
-                log.info('No Subscription to delete!')
