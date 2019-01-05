@@ -41,7 +41,7 @@ MAILER_LOCK_PATH = '/tmp/mailer_lock'
 ADMIN_EMAIL = os.environ['ADMIN_EMAIL']
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
+    # django core packages -> Load them before anything else
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -61,6 +61,9 @@ INSTALLED_APPS = [
     'core',
     'myuser',
 
+    # django core packages -> Load them here so we can override them
+    'django.contrib.admin',
+
     # 3rd party packages -> Load them last so we can override them
     'explorer',
     'rosetta'
@@ -69,6 +72,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -196,7 +200,7 @@ EXPLORER_DATA_EXPORTERS = [
 ]
 
 # Internationalization
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = False

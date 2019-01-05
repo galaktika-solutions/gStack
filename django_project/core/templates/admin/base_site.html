@@ -1,0 +1,16 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+{% get_available_languages as LANGUAGES %}
+
+{% block nav-global %}
+<form style="display: inline-block" action="/i18n/setlang/" method="post">
+  {% csrf_token %}
+  <label>{% trans "Language" %}</label>
+  <select name="language">
+    {% for lang in LANGUAGES %}
+    <option value="{{lang.0}}" {% if lang.0 == LANGUAGE_CODE %} selected{% endif %}>{{lang.1}}</option>
+    {% endfor %}
+  </select>
+  <input type="submit" style="padding: 7px 10px" value="Go">
+</form>
+{% endblock %}
