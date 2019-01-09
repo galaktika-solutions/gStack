@@ -1,17 +1,38 @@
-# coding: utf-8
-# Django core and 3rd party imports
 import os
-from django.utils.translation import ugettext_lazy as _
+import re
+import logging.config
 
-# Project imports
-from .utils import read_secret
+from django.utils.translation import ugettext_lazy as _
+from gdockutils import read_secret_from_file
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SECRET_KEY = read_secret_from_file('DJANGO_SECRET_KEY')
 DEBUG = os.environ.get('ENV') == 'DEV'
-PROD = os.environ.get('ENV') == 'PROD'
+ALLOWED_HOSTS = [os.environ.get('HOST_NAME'), os.environ.get('SERVER_IP')]
 
-STATIC_URL = '/assets/'
+ADMINS = [
+    re.match(r'^\s*([^<]*?)\s*<(.*)>.*', admin).groups()
+    for admin in os.environ.get('ADMINS', '').split(',')
+]
+
+# Email related settings
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 0)) or None
+EMAIL_HOST_USER = read_secret_from_file('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = read_secret_from_file('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', '').lower() == 'true'
+EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL', '').lower() == 'true'
+EMAIL_TIMEOUT = 10
+SERVER_EMAIL = os.environ.get('SERVER_EMAIL')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
+EMAIL_SUBJECT_PREFIX = '[%s] ' % os.environ.get('HOST_NAME')
+EMAIL_BACKEND = 'mailer.backend.DbBackend'
+MAILER_EMAIL_BACKEND = 'core.rewrite_email_backend.EmailBackend'
+MAILER_LOCK_PATH = '/tmp/mailer_lock'
+
+
+STATIC_URL = '/static/'
 STATIC_ROOT = '/src/static/'
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
@@ -19,52 +40,8 @@ STATICFILES_FINDERS = (
 
 MEDIA_ROOT = '/data/files/media/'
 MEDIA_URL = '/media/'
+
 ROOT_URLCONF = 'core.urls'
-
-SECRET_KEY = read_secret('DJANGO_SECRET_KEY')
-ALLOWED_HOSTS = [os.environ.get('HOST_NAME'), os.environ.get('SERVER_IP')]
-BASE_URL = os.environ.get('HOST_NAME')
-
-# Email related settings
-ADMINS = [('IT Team', os.environ['ADMIN_EMAIL'])]
-EMAIL_BACKEND = 'mailer.backend.DbBackend'
-MAILER_EMAIL_BACKEND = 'core.rewrite_email_backend.EmailBackend'
-SERVER_EMAIL = os.environ['SERVER_EMAIL']
-EMAIL_SUBJECT_PREFIX = '[%s] ' % os.environ.get('HOST_NAME')
-EMAIL_HOST = os.environ['EMAIL_HOST']
-EMAIL_PORT = int(os.environ['EMAIL_PORT'])
-EMAIL_HOST_USER = read_secret('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = read_secret('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = os.environ['DEFAULT_FROM_EMAIL']
-EMAIL_USE_TLS = os.environ['EMAIL_USE_TLS']
-MAILER_LOCK_PATH = '/tmp/mailer_lock'
-ADMIN_EMAIL = os.environ['ADMIN_EMAIL']
-
-INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-
-    # 3rd party packages -> Load them before the our packages are loaded
-    'django_extensions',
-    'mailer',
-    'channels',
-    'rest_framework',
-    'rest_framework.authtoken',
-    'rest_auth',
-    'django_filters',
-
-    # gStack packages
-    'core',
-    'myuser',
-
-    # 3rd party packages -> Load them last so we can override them
-    'explorer',
-    'rosetta'
-]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -76,7 +53,33 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-if DEBUG:
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+
+    'django_extensions',
+    'mailer',
+
+    # 'channels',
+    # 'rest_framework',
+    # 'rest_framework.authtoken',
+    # 'rest_auth',
+    # 'django_filters',
+    # 'explorer',
+    # 'rosetta'
+
+    'core',
+    'myuser',
+    'demo.apps.DemoConfig',
+]
+
+# debug toolbar installs a handler (ThreadTrackingHandler) on the root
+# logger which conflicts with mailer's management command
+if DEBUG and not os.environ.get('NO_DEBUG_TOOLBAR', ''):
     INSTALLED_APPS.append('debug_toolbar')
     MIDDLEWARE.append(
         'debug_toolbar.middleware.DebugToolbarMiddleware'
@@ -85,20 +88,15 @@ if DEBUG:
         'SHOW_TOOLBAR_CALLBACK': lambda x: DEBUG
     }
 
-pwd_path = 'django.contrib.auth.password_validation.'
+# BASE_URL = os.environ.get('HOST_NAME')
+
+validators = [
+    'UserAttributeSimilarityValidator', 'MinimumLengthValidator',
+    'CommonPasswordValidator', 'NumericPasswordValidator'
+]
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': pwd_path + 'MinimumLengthValidator',
-        'OPTIONS': {
-            'min_length': 8,
-        }
-    },
-    {
-        'NAME': pwd_path + 'UserAttributeSimilarityValidator',
-        'OPTIONS': {
-            'user_attributes': ('first_name', 'last_name', 'email'),
-        }
-    },
+    {'NAME': 'django.contrib.auth.password_validation.%s' % v}
+    for v in validators
 ]
 
 TEMPLATES = [
@@ -122,22 +120,20 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'core.wsgi.application'
-ASGI_APPLICATION = "core.routing.application"
+# ASGI_APPLICATION = "core.routing.application"
 
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('redis', 6379)],
-        },
-    },
-}
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             "hosts": [('redis', 6379)],
+#         },
+#     },
+# }
 
 # Set up custom user model
 AUTH_USER_MODEL = 'myuser.User'
 
-# Database
-db_password = read_secret('DB_PASSWORD')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -145,61 +141,64 @@ DATABASES = {
         'PORT': '5432',
         'NAME': 'django',
         'USER': 'django',
-        'PASSWORD': db_password,
+        'PASSWORD': read_secret_from_file('DB_PASSWORD_DJANGO'),
         'OPTIONS': {
             'sslmode': 'verify-ca',
+            'sslrootcert': '/run/secrets/PG_SERVER_SSL_CACERT',
+            'sslcert': '/run/secrets/PG_CLIENT_SSL_CERT',
+            'sslkey': '/run/secrets/PG_CLIENT_SSL_KEY',
         },
     },
-    'explorer': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'HOST': 'postgres',
-        'PORT': '5432',
-        'NAME': 'django',
-        'USER': 'explorer',
-        'PASSWORD': db_password,
-        'TEST': {
-            'MIRROR': 'default',
-        },
-        'OPTIONS': {
-            'sslmode': 'verify-ca',
-        },
-    },
+    # 'explorer': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'HOST': 'postgres',
+    #     'PORT': '5432',
+    #     'NAME': 'django',
+    #     'USER': 'explorer',
+    #     'PASSWORD': db_password,
+    #     'TEST': {
+    #         'MIRROR': 'default',
+    #     },
+    #     'OPTIONS': {
+    #         'sslmode': 'verify-ca',
+    #     },
+    # },
 }
 
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
-    # Use this if you want to disable the form on the BrowsableAPIRenderer
-    # 'DEFAULT_RENDERER_CLASSES': (
-    #     'rest_framework.renderers.JSONRenderer',
-    #     'core.renderers.BrowsableAPIRendererWithoutForm',
-    # ),
-    'DEFAULT_FILTER_BACKENDS': (
-        'django_filters.rest_framework.DjangoFilterBackend',
-    ),
-    'DEFAULT_PAGINATION_CLASS': (
-        'rest_framework.pagination.PageNumberPagination'
-    ),
-    'PAGE_SIZE': 10,
-    'MAX_PAGE_SIZE': 1000,
-    'PAGINATE_BY_PARAM': 'page_size'
-}
+# REST_FRAMEWORK = {
+#     'DEFAULT_PERMISSION_CLASSES': (
+#         'rest_framework.permissions.IsAuthenticated',
+#     ),
+#     # Use this if you want to disable the form on the BrowsableAPIRenderer
+#     # 'DEFAULT_RENDERER_CLASSES': (
+#     #     'rest_framework.renderers.JSONRenderer',
+#     #     'core.renderers.BrowsableAPIRendererWithoutForm',
+#     # ),
+#     'DEFAULT_FILTER_BACKENDS': (
+#         'django_filters.rest_framework.DjangoFilterBackend',
+#     ),
+#     'DEFAULT_PAGINATION_CLASS': (
+#         'rest_framework.pagination.PageNumberPagination'
+#     ),
+#     'PAGE_SIZE': 10,
+#     'MAX_PAGE_SIZE': 1000,
+#     'PAGINATE_BY_PARAM': 'page_size'
+# }
 
 
-EXPLORER_DEFAULT_CONNECTION = 'explorer'
-EXPLORER_CONNECTIONS = {'Default': 'explorer'}
-EXPLORER_DATA_EXPORTERS = [
-    ('csv', 'core.exporters.CSVExporterBOM'),
-    ('excel', 'explorer.exporters.ExcelExporter'),
-    ('json', 'explorer.exporters.JSONExporter')
-]
+# EXPLORER_DEFAULT_CONNECTION = 'explorer'
+# EXPLORER_CONNECTIONS = {'Default': 'explorer'}
+# EXPLORER_DATA_EXPORTERS = [
+#     ('csv', 'core.exporters.CSVExporterBOM'),
+#     ('excel', 'explorer.exporters.ExcelExporter'),
+#     ('json', 'explorer.exporters.JSONExporter')
+# ]
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
-USE_L10N = False
+USE_L10N = True
 USE_TZ = True
 
 LANGUAGES = (
@@ -210,18 +209,18 @@ LANGUAGES = (
 LOCALE_PATHS = ('/data/files/locale/',)
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
-# ROSETTA
-ROSETTA_MESSAGES_PER_PAGE = 50
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-        'LOCATION': 'cache_table',
-    }
-}
+# # ROSETTA
+# ROSETTA_MESSAGES_PER_PAGE = 50
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+#         'LOCATION': 'cache_table',
+#     }
+# }
 
-DATE_FORMAT = ('Y-m-d')
-DATETIME_FORMAT = ('Y-m-d H:i:s')
-TIME_FORMAT = ('H:i:s')
+# DATE_FORMAT = ('Y-m-d')
+# DATETIME_FORMAT = ('Y-m-d H:i:s')
+# TIME_FORMAT = ('H:i:s')
 
 # File Upload max 50MB
 DATA_UPLOAD_MAX_MEMORY_SIZE = 52428800
@@ -229,15 +228,42 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 52428800
 FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o750
 FILE_UPLOAD_PERMISSIONS = 0o640
 
-# Set up custom user model
-# AUTH_USER_MODEL =
-
-# After a successful authentication this is where we go
 # LOGIN_REDIRECT_URL =
-
-# The login page is also the start page too
-LOGIN_URL = '/admin/'
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
+
+LOGGING_CONFIG = None
+log_config = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'django': {
+            'class': 'core.logging.GStackFormatter',
+            'format': '|{asctime}|{name}|{levelname}|{message}',
+            'datefmt': '%Y-%m-%d %H:%M:%S%z',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'formatter': 'django',
+            'class': 'logging.StreamHandler',
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler'
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+    }
+}
+if os.environ.get('MAIL_ADMINS_ON_ERROR', '').lower() == 'true':
+    log_config['loggers']['django']['handlers'].append('mail_admins')
+logging.config.dictConfig(log_config)

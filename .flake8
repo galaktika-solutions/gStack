@@ -1,0 +1,4 @@
+[flake8]
+ignore =
+    # E402: We need to call django.setup() before model imports
+    E402

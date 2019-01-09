@@ -1,63 +1,38 @@
 SHELL=/bin/bash
 
-timestamp := $(shell date +"%Y-%m-%d-%H-%M")
-usr := $(shell id -u):$(shell id -g)
-devcompose := COMPOSE_FILE=docker-compose.yml:docker-compose.dev.yml
+# Should be exported for sub-makes to see it as an env var.
+# The sub-make must be called with make -e (do disable re-definition of env vars)
+export timestamp := $(shell date -u +"%Y-%m-%d-%H-%M")
+# usr := $(shell id -u):$(shell id -g)
+dcrun := docker-compose -f docker-compose.yml -f docker-compose.dev.yml run --rm -e ENV=DEV
+dc := docker-compose -f docker-compose.yml -f docker-compose.dev.yml
+
+clean:
+	$(dcrun) postgres clean
+
+imagebuild:
+	$(dc) build
+
+createcerts:
+	$(dcrun) postgres bash -c 'createcerts -n $$HOST_NAME'
 
 createsecret:
-	@docker-compose run --rm -u $(usr) postgres createsecret
+	$(dcrun) postgres createsecret_ui
 
 readsecret:
-	@docker-compose run --rm -u $(usr) postgres readsecret
-
-collectstatic:
-	$(devcompose) docker-compose run --rm django collectstatic
-
-build:
-	$(devcompose) docker-compose down
-	$(devcompose) docker-compose build
-	$(devcompose) docker-compose run --rm build_js npm install
-	$(devcompose) docker-compose run --rm build_js npm run build
-	$(devcompose) docker-compose run --rm django with_django django-admin createcachetable
-	$(devcompose) docker-compose run --rm django collectstatic
-	$(devcompose) docker-compose run --rm -e 'VERSION=$(timestamp)' django docs
-	cp -R js_client/build/ static
-	$(devcompose) docker-compose build
-	$(devcompose) docker-compose down
-
-create_dev_certificates:
-	docker-compose run --rm -u $(usr) -w /src/.files postgres ./create_dev_certificates.sh
-
-shell_plus:
-	docker-compose run --rm django with_django django-admin shell_plus
-
-create_superuser:
-	docker-compose run --rm django with_django django-admin createsuperuser
-
-bash:
-	docker-compose run --rm django with_django bash
-
-test:
-	docker-compose run --rm django test
-
-test_keepdb:
-	docker-compose run --rm django test keepdb
-
-coverage:
-	docker-compose run --rm django coverage
-
-.PHONY: docs
-docs:
-	docker-compose run --rm django docs
+	$(dcrun) postgres readsecret_ui
 
 migrate:
 	docker-compose run --rm django with_django django-admin migrate
 
-makemigrations:
-	docker-compose run --rm django with_django django-admin makemigrations
+createsuperuser:
+	docker-compose run --rm django with_django django-admin createsuperuser
 
-makemessages:
-	docker-compose run --rm django makemessages
+collectstatic:
+	$(dcrun) django collectstatic
+
+shell:
+	docker-compose run --rm django with_django bash
 
 .PHONY: backup
 backup:
@@ -66,3 +41,37 @@ backup:
 restore:
 	docker-compose down
 	docker-compose run --rm backup restore
+
+build:
+	$(dc) down
+	make imagebuild
+	make collectstatic
+	$(dcrun) build_js npm install
+	# $(devcompose) docker-compose run --rm build_js npm install
+	# $(devcompose) docker-compose run --rm build_js npm run build
+	# cp -R js_client/build/ static
+	make -e docs
+	make imagebuild
+	$(dc) down
+
+shell_plus:
+	docker-compose run --rm django with_django django-admin shell_plus
+
+test:
+	docker-compose run --rm django test
+
+# test_keepdb:
+# 	docker-compose run --rm django test keepdb
+#
+# coverage:
+# 	docker-compose run --rm django coverage
+
+.PHONY: docs
+docs:
+	$(dcrun) -e 'VERSION=$(timestamp)' django docs
+
+# makemigrations:
+# 	docker-compose run --rm django with_django django-admin makemigrations
+#
+# makemessages:
+# 	docker-compose run --rm django makemessages

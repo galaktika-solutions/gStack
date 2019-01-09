@@ -1,10 +1,10 @@
-.env
-.secret.env
-
-*.pyc
-__pycache__
-
-.coverage
+/.env
+/.secret.env
+/.files
 /backup
 /static
 /docs/build
+/.coverage
+/coverage_report
+
+__pycache__

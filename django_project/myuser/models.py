@@ -1,9 +1,9 @@
 from django.db import models
-from django.conf import settings
+# from django.conf import settings
 from django.core.validators import MaxLengthValidator
-from mailer import send_html_mail
-from premailer import Premailer
-from django.template import loader
+# from mailer import send_html_mail
+# from premailer import Premailer
+# from django.template import loader
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
@@ -122,34 +122,34 @@ class User(AbstractBaseUser):
         return self.is_admin
 
     def save(self):
-        old = None
-        if self.id is not None:
-            old = User.objects.get(pk=self.id)
+        # old = None
+        # if self.id is not None:
+        #     old = User.objects.get(pk=self.id)
         super().save()
-        if old is None:
-            from_email = settings.DEFAULT_FROM_EMAIL
-            to_address = settings.ADMIN_EMAIL
-            email_subject = 'New user is created'
-            email_subject = settings.EMAIL_SUBJECT_PREFIX + email_subject
-            content = {
-                'text': email_subject,
-                'from_email': from_email,
-                'subject': email_subject,
-                'email': self.email,
-            }
-
-            template = 'email_templates/new_user.html'
-            body = Premailer(
-                loader.render_to_string(template, content)
-            ).transform()
-            send_html_mail(
-                email_subject,
-                body,
-                body,
-                settings.DEFAULT_FROM_EMAIL,
-                [to_address],
-
-            )
+        # if old is None:
+        #     from_email = settings.DEFAULT_FROM_EMAIL
+        #     to_address = settings.ADMIN_EMAIL
+        #     email_subject = 'New user is created'
+        #     email_subject = settings.EMAIL_SUBJECT_PREFIX + email_subject
+        #     content = {
+        #         'text': email_subject,
+        #         'from_email': from_email,
+        #         'subject': email_subject,
+        #         'email': self.email,
+        #     }
+        #
+        #     template = 'email_templates/new_user.html'
+        #     body = Premailer(
+        #         loader.render_to_string(template, content)
+        #     ).transform()
+        #     send_html_mail(
+        #         email_subject,
+        #         body,
+        #         body,
+        #         settings.DEFAULT_FROM_EMAIL,
+        #         [to_address],
+        #
+        #     )
 
     @staticmethod
     def autocomplete_search_fields():
