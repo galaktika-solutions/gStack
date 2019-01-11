@@ -5,9 +5,7 @@
 
 /backup
 /.files
-/.coverage
 /django_project/*/static
 /js_client
-/.coverage
 
 **/__pycache__

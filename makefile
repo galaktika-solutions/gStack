@@ -43,14 +43,14 @@ restore:
 	docker-compose run --rm backup restore
 
 build:
+	@echo "Building $(timestamp)"
 	$(dc) down
 	make imagebuild
-	make collectstatic
 	$(dcrun) build_js npm install
-	# $(devcompose) docker-compose run --rm build_js npm install
-	# $(devcompose) docker-compose run --rm build_js npm run build
-	# cp -R js_client/build/ static
+	$(dcrun) build_js npm run build
+	make collectstatic
 	make -e docs
+	make test
 	make imagebuild
 	$(dc) down
 

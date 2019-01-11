@@ -20,7 +20,7 @@ ENV PYTHONUNBUFFERED 1
 
 # pip packages
 RUN pip install --upgrade pip
-RUN pip install --no-cache-dir gdockutils==0.5.14
+RUN pip install --no-cache-dir gdockutils==0.5.16
 
 ENV HOME /tmp
 WORKDIR /src/js_client

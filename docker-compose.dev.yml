@@ -37,9 +37,10 @@ services:
 
   build_js:
     build:
-        context: .
-        dockerfile: docker/node/Dockerfile
+      context: .
+      dockerfile: docker/node/Dockerfile
     image: ${COMPOSE_PROJECT_NAME}-node
+    command: ["watch"]
     volumes:
       - ".:/src"
     env_file: .env

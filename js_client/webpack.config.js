@@ -11,9 +11,18 @@ module.exports = {
       }
     ]
   },
+  watchOptions: {
+    ignored: /node_modules/,
+    poll: true
+  },
   output: {
-    filename: "build.[hash].js",
+    filename: "main.[hash].js",
     path: __dirname + "/../django_project/demo/static/demo/dist"
   },
-  plugins: [new CleanWebpackPlugin(["dist"])]
+  plugins: [
+    new CleanWebpackPlugin(["django_project/demo/static/demo/dist"], {
+      root: "/src"
+    })
+  ],
+  devtool: "source-map"
 };

@@ -76,7 +76,7 @@ RUN pip install --no-cache-dir \
 
 RUN pip install --no-cache-dir \
   periodtask==0.7.0 \
-  gdockutils==0.5.14 \
+  gdockutils==0.5.16 \
   logging_tree==1.8 \
   ipython==7.2.0
 

@@ -264,6 +264,9 @@ log_config = {
         },
     }
 }
-if os.environ.get('MAIL_ADMINS_ON_ERROR', '').lower() == 'true':
+if (
+    not DEBUG or
+    os.environ.get('MAIL_ADMINS_ON_ERROR_IN_DEBUG', '').lower() == 'true'
+):
     log_config['loggers']['django']['handlers'].append('mail_admins')
 logging.config.dictConfig(log_config)
