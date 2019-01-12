@@ -96,17 +96,22 @@ fi
 ################################################################################
 if [ "$1" = 'test' ]; then
   prepare -w django
-  #   keepdb=''
-  #   if [ "$2" = 'keepdb' ]; then
-  #     keepdb='--keepdb'
-  #   fi
-  # gprun -u django -s SIGINT coverage run --rcfile /src/.coveragerc /src/django_project/manage.py test $keepdb -v 2 --noinput
   gprun -u django -s SIGINT coverage run django_project/manage.py test -v 2 --noinput
   coverage report
-  #   chown -R django:django /src/static
   coverage html
   chown -R "$(stat -c %u:%g /src/.git)" coverage_report
   exit 0
+fi
+################################################################################
+if [ "$1" = 'makemigrations' ]; then
+  chown django:django django_project/*/migrations
+  prepare -w django
+  # We need to do some magic to run the final chown even if makemigration
+  # fails and return the correct exit code
+  exitcode=0
+  gprun -u django -s SIGINT django-admin makemigrationssss || exitcode=$?
+  chown -R "$(stat -c %u:%g /src/.git)" django_project/*/migrations
+  exit $exitcode
 fi
 ################################################################################
 # if [ "$1" = 'coverage' ]; then

@@ -72,9 +72,9 @@ INSTALLED_APPS = [
     # 'explorer',
     # 'rosetta'
 
-    'core',
-    'myuser',
-    'demo.apps.DemoConfig',
+    'core.apps.Config',
+    'improveduser.apps.Config',
+    'demo.apps.Config',
 ]
 
 # debug toolbar installs a handler (ThreadTrackingHandler) on the root
@@ -88,16 +88,21 @@ if DEBUG and not os.environ.get('NO_DEBUG_TOOLBAR', ''):
         'SHOW_TOOLBAR_CALLBACK': lambda x: DEBUG
     }
 
-# BASE_URL = os.environ.get('HOST_NAME')
-
 validators = [
-    'UserAttributeSimilarityValidator', 'MinimumLengthValidator',
-    'CommonPasswordValidator', 'NumericPasswordValidator'
+    'MinimumLengthValidator', 'CommonPasswordValidator',
+    'NumericPasswordValidator',
 ]
+auth_prefix = 'django.contrib.auth.password_validation.'
 AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.%s' % v}
+    {'NAME': 'django.contrib.auth.password_validation.' + v}
     for v in validators
 ]
+AUTH_PASSWORD_VALIDATORS.append({
+    'NAME': auth_prefix + 'UserAttributeSimilarityValidator',
+    'OPTIONS': {
+        'user_attributes': ('email', 'full_name', 'short_name')
+    },
+})
 
 TEMPLATES = [
     {
@@ -132,7 +137,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # }
 
 # Set up custom user model
-AUTH_USER_MODEL = 'myuser.User'
+AUTH_USER_MODEL = 'improveduser.User'
 
 DATABASES = {
     'default': {

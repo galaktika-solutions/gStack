@@ -23,10 +23,10 @@ readsecret:
 	$(dcrun) postgres readsecret_ui
 
 migrate:
-	docker-compose run --rm django with_django django-admin migrate
+	$(dcrun) django with_django django-admin migrate
 
 createsuperuser:
-	docker-compose run --rm django with_django django-admin createsuperuser
+	$(dcrun) django with_django django-admin createsuperuser
 
 collectstatic:
 	$(dcrun) django collectstatic
@@ -55,10 +55,10 @@ build:
 	$(dc) down
 
 shell_plus:
-	docker-compose run --rm django with_django django-admin shell_plus
+	$(dcrun) django with_django django-admin shell_plus
 
 test:
-	docker-compose run --rm django test
+	$(dcrun) django test
 
 # test_keepdb:
 # 	docker-compose run --rm django test keepdb
@@ -70,8 +70,10 @@ test:
 docs:
 	$(dcrun) -e 'VERSION=$(timestamp)' django docs
 
-# makemigrations:
-# 	docker-compose run --rm django with_django django-admin makemigrations
-#
+makemigrations:
+	make clean
+	$(dcrun) django makemigrations
+	make clean
+
 # makemessages:
 # 	docker-compose run --rm django makemessages

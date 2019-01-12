@@ -80,6 +80,8 @@ RUN pip install --no-cache-dir \
   logging_tree==1.8 \
   ipython==7.2.0
 
+RUN pip install --no-cache-dir \
+  django-improved-user[factory]==1.0.0
 
 # copy
 COPY / /src
