@@ -59,6 +59,7 @@ EMAIL_HOST_PASSWORD=
 
 ```
 make createcerts
+make migrate
 make createsecret
 ```
 

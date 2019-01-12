@@ -30,7 +30,7 @@ ENV PATH $PATH:/usr/lib/postgresql/$PG_MAJOR/bin
 ENV PGDATA /data/postgres
 
 # python
-RUN apt-get update && apt-get install -y python3.6 python3.6-dev python3-venv
+RUN apt-get update && apt-get install -y python3.6 python3.6-dev python3-venv libpq-dev
 RUN python3.6 -m venv /python
 ENV PATH /python/bin:$PATH
 ENV PYTHONPATH /src/django_project/
