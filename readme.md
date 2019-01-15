@@ -57,6 +57,8 @@ EMAIL_HOST_PASSWORD=
 
 ## Populate secrets for development
 
+After cloning, create `.env` and `.secret.env` files.
+
 ```
 make createcerts
 make createsecret
@@ -74,3 +76,8 @@ The passwords can be random strings. `EMAIL_HOST_USER` and
 `EMAIL_HOST_PASSWORD` can be set in the terminal (`createsecret` option).
 The example setup uses gmail, it will only work if you enable
 "less secure apps" in gmail settings.
+
+```
+make migrate
+make createsuperuser
+```

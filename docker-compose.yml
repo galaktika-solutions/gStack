@@ -18,7 +18,7 @@ services:
     ports:
       - "127.0.0.1:5432:5432"
     logging:
-      driver: ${LOG_DRIVER}
+      driver: ${LOG_DRIVER:?The LOG_DRIVER variable is not set in .env}
       options:
         tag: "docker/${COMPOSE_PROJECT_NAME}-postgres"
 
@@ -80,7 +80,6 @@ services:
       driver: ${LOG_DRIVER}
       options:
         tag: "docker/${COMPOSE_PROJECT_NAME}-tasks"
-
   # redis:
   #   image: ${REGISTRY_URL}/${COMPOSE_PROJECT_NAME}-main:${VERSION}
   #   container_name: ${COMPOSE_PROJECT_NAME}-redis

@@ -3,7 +3,6 @@ SHELL=/bin/bash
 # Should be exported for sub-makes to see it as an env var.
 # The sub-make must be called with make -e (do disable re-definition of env vars)
 export timestamp := $(shell date -u +"%Y-%m-%d-%H-%M")
-# usr := $(shell id -u):$(shell id -g)
 dcrun := docker-compose -f docker-compose.yml -f docker-compose.dev.yml run --rm -e ENV=DEV
 dc := docker-compose -f docker-compose.yml -f docker-compose.dev.yml
 
@@ -71,9 +70,7 @@ docs:
 	$(dcrun) -e 'VERSION=$(timestamp)' django docs
 
 makemigrations:
-	make clean
 	$(dcrun) django makemigrations
-	make clean
 
 # makemessages:
 # 	docker-compose run --rm django makemessages
