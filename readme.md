@@ -61,7 +61,6 @@ After cloning, create `.env` and `.secret.env` files.
 
 ```
 make createcerts
-make migrate
 make createsecret
 ```
 
