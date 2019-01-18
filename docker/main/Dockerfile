@@ -52,15 +52,10 @@ RUN apt-get update && apt-get install -y redis
 # pip packages
 RUN pip install --upgrade pip
 
-# django-sql-explorer==1.1.2  # does not work yet
-# xlsxwriter==1.1.2 \
 # channels==2.1.3 \
 # channels_redis==2.3.0 \
 # Twisted[tls,http2]==18.7.0 \
-# django-rosetta==0.8.1 \
-# django-filter==2.0.0 \
 # premailer==3.2.0
-# djangorestframework==3.9.0 \
 # django-rest-auth==0.9.3 \
 
 RUN pip install --no-cache-dir \
@@ -81,7 +76,12 @@ RUN pip install --no-cache-dir \
   ipython==7.2.0
 
 RUN pip install --no-cache-dir \
-  django-improved-user[factory]==1.0.0
+  django-improved-user[factory]==1.0.0 \
+  djangorestframework==3.9.1 \
+  django-filter==2.0.0 \
+  xlsxwriter==1.1.2 \
+  django-sql-explorer==1.1.2 \
+  django-rosetta==0.9.1
 
 # copy
 COPY / /src

@@ -46,6 +46,7 @@ ROOT_URLCONF = 'core.urls'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -60,24 +61,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'django_extensions',
     'mailer',
-
     # 'channels',
-    # 'rest_framework',
+    'rest_framework.apps.RestFrameworkConfig',
+    'django_filters',
     # 'rest_framework.authtoken',
     # 'rest_auth',
-    # 'django_filters',
-    # 'explorer',
-    # 'rosetta'
-
+    'explorer.apps.ExplorerAppConfig',
     'core.apps.Config',
+    'rosetta.apps.RosettaAppConfig',
     'improveduser.apps.Config',
     'demo.apps.Config',
 ]
 
-# debug toolbar installs a handler (ThreadTrackingHandler) on the root
+# debug toolbar installs a log handler (ThreadTrackingHandler) on the root
 # logger which conflicts with mailer's management command
 if DEBUG and not os.environ.get('NO_DEBUG_TOOLBAR', ''):
     INSTALLED_APPS.append('debug_toolbar')
@@ -154,50 +152,50 @@ DATABASES = {
             'sslkey': '/run/secrets/PG_CLIENT_SSL_KEY',
         },
     },
-    # 'explorer': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'HOST': 'postgres',
-    #     'PORT': '5432',
-    #     'NAME': 'django',
-    #     'USER': 'explorer',
-    #     'PASSWORD': db_password,
-    #     'TEST': {
-    #         'MIRROR': 'default',
-    #     },
-    #     'OPTIONS': {
-    #         'sslmode': 'verify-ca',
-    #     },
-    # },
+    'explorer': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'HOST': 'postgres',
+        'PORT': '5432',
+        'NAME': 'django',
+        'USER': 'explorer',
+        'PASSWORD': read_secret_from_file('DB_PASSWORD_EXPLORER'),
+        'TEST': {
+            'MIRROR': 'default',
+        },
+        'OPTIONS': {
+            'sslmode': 'verify-ca',
+            'sslrootcert': '/run/secrets/PG_SERVER_SSL_CACERT',
+            'sslcert': '/run/secrets/PG_CLIENT_SSL_CERT',
+            'sslkey': '/run/secrets/PG_CLIENT_SSL_KEY',
+        },
+    },
 }
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_PERMISSION_CLASSES': (
-#         'rest_framework.permissions.IsAuthenticated',
-#     ),
-#     # Use this if you want to disable the form on the BrowsableAPIRenderer
-#     # 'DEFAULT_RENDERER_CLASSES': (
-#     #     'rest_framework.renderers.JSONRenderer',
-#     #     'core.renderers.BrowsableAPIRendererWithoutForm',
-#     # ),
-#     'DEFAULT_FILTER_BACKENDS': (
-#         'django_filters.rest_framework.DjangoFilterBackend',
-#     ),
-#     'DEFAULT_PAGINATION_CLASS': (
-#         'rest_framework.pagination.PageNumberPagination'
-#     ),
-#     'PAGE_SIZE': 10,
-#     'MAX_PAGE_SIZE': 1000,
-#     'PAGINATE_BY_PARAM': 'page_size'
-# }
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    # Use this if you want to disable the form on the BrowsableAPIRenderer
+    # 'DEFAULT_RENDERER_CLASSES': (
+    #     'rest_framework.renderers.JSONRenderer',
+    #     'core.renderers.BrowsableAPIRendererWithoutForm',
+    # ),
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
+    'DEFAULT_PAGINATION_CLASS': (
+        'core.pagination.FlexiblePagination'
+    ),
+}
 
-
-# EXPLORER_DEFAULT_CONNECTION = 'explorer'
-# EXPLORER_CONNECTIONS = {'Default': 'explorer'}
-# EXPLORER_DATA_EXPORTERS = [
-#     ('csv', 'core.exporters.CSVExporterBOM'),
-#     ('excel', 'explorer.exporters.ExcelExporter'),
-#     ('json', 'explorer.exporters.JSONExporter')
-# ]
+EXPLORER_DEFAULT_CONNECTION = 'explorer'
+EXPLORER_CONNECTIONS = {'Default': 'explorer'}
+EXPLORER_SQL_BLACKLIST = ()
+EXPLORER_DATA_EXPORTERS = [
+    ('csv', 'core.exporters.CSVExporterBOM'),
+    ('excel', 'explorer.exporters.ExcelExporter'),
+    ('json', 'explorer.exporters.JSONExporter')
+]
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'
@@ -233,7 +231,7 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 52428800
 FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o750
 FILE_UPLOAD_PERMISSIONS = 0o640
 
-# LOGIN_REDIRECT_URL =
+LOGIN_REDIRECT_URL = '/'
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SESSION_COOKIE_SECURE = True

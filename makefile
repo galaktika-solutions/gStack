@@ -72,5 +72,5 @@ docs:
 makemigrations:
 	$(dcrun) django makemigrations
 
-# makemessages:
-# 	docker-compose run --rm django makemessages
+makemessages:
+	$(dcrun) django makemessages

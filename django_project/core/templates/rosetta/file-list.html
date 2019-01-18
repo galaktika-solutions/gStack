@@ -1,0 +1,11 @@
+{% extends "rosetta/file-list.html" %}
+{% load i18n %}
+
+{% block breadcumbs %}
+<div class="object-tools" style="display: inline-block; margin-top: 0px">
+  <a href="{% url 'publish_translations' %}" style="float: right">
+    {% trans "Publish Translations" %}
+  </a>
+</div>
+{{ block.super }}
+{% endblock %}
