@@ -2,10 +2,11 @@
 {% load i18n %}
 
 {% block content %}
-  <h1>{% trans "Welcome to gStack!" %}</h1>
+  <h1>{% trans "Welcome to gStack" %}, <strong>{% firstof user.get_short_name user.get_username %}</strong>!</h1>
+  <a href="{% url 'logout' %}">{% trans 'Log out' %}</a>
+  <a href="{% url 'rosetta-old-home-redirect' %}">{% trans 'Translation' %}</a>
   <form action="{% url 'set_language' %}" method="post">
       {% csrf_token %}
-      {# <input name="next" type="hidden" value="{{ redirect_to }}" /> #}
       <select name="language">
           {% get_current_language as LANGUAGE_CODE %}
           {% get_available_languages as LANGUAGES %}
