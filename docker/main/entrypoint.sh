@@ -129,6 +129,38 @@ fi
 #   exit 0
 # fi
 ################################################################################
+if [ "$1" = 'makemessages' ]; then
+  prepare -w django
+  locales=$(python -c '
+import django
+django.setup()
+from django.conf import settings
+print(" ".join(["-l %s" % k for k, v in settings.LANGUAGES if k != "en"]), end="")')
+
+  find . -type d -name __pycache__ -exec rm -rf {} +
+
+  # allow django to write into these directories
+  find django_project -type d -exec chown django:django {} +
+  cd django_project
+  gprun -u django -s SIGINT django-admin makemessages \
+    $locales \
+    --extension=html,py,tex \
+    --ignore=*/migrations/* \
+    -v 2
+  cd /src
+  # restore permissions, clean python cache
+  owner="$(stat -c %u:%g .)"; find django_project -type d -exec chown "$owner" {} +
+
+  cd js_client/src
+  gprun -u django -s SIGINT django-admin makemessages --domain djangojs \
+    $locales \
+    -v 2
+  cd /src
+
+  find . -type d -name __pycache__ -exec rm -rf {} +
+  exit 0
+fi
+################################################################################
 # if [ "$1" = 'makemessages' ]; then
 #   prepare_django
 #

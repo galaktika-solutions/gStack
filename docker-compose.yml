@@ -5,6 +5,9 @@ volumes:
 
 networks:
   default:
+    ipam:
+      config:
+        - subnet: ${NETWORK_SUBNET}
 
 services:
   postgres:

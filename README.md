@@ -12,8 +12,9 @@
 COMPOSE_FILE=docker-compose.yml:docker-compose.dev.yml
 ENV=DEV
 # ENV=PROD
-LOG_DRIVER=json-file
 COMPOSE_PROJECT_NAME=gstack
+LOG_DRIVER=json-file
+NETWORK_SUBNET=10.88.7.0/24
 REGISTRY_URL=gstack
 VERSION=latest
 

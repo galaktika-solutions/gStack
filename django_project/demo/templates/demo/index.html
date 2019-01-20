@@ -1,17 +1,35 @@
 {% extends "core/base.html" %}
+{% load i18n %}
 
 {% block content %}
-  <h1>Welcome to gStack!</h1>
+  <h1>{% trans "Welcome to gStack" %}, <strong>{% firstof user.get_short_name user.get_username %}</strong>!</h1>
+  <a href="{% url 'logout' %}">{% trans 'Log out' %}</a>
+  <a href="{% url 'rosetta-old-home-redirect' %}">{% trans 'Translation' %}</a>
+  <form action="{% url 'set_language' %}" method="post">
+      {% csrf_token %}
+      <select name="language">
+          {% get_current_language as LANGUAGE_CODE %}
+          {% get_available_languages as LANGUAGES %}
+          {% for lang in LANGUAGES %}
+              <option value="{{ lang.0 }}" {% if lang.0 == LANGUAGE_CODE %} selected="selected"{% endif %}>
+                  {{ lang.1 }} ({{ lang.0 }})
+              </option>
+          {% endfor %}
+      </select>
+      <input type="submit" value="{% trans "Go" %}" />
+  </form>
   <form action="{% url 'demo:test-email' %}" method="post">
     {% csrf_token %}
-    <button type="submit">Send test email to ADMINS</button>
+    <button type="submit">{% trans "Send test email to ADMINS" %}</button>
   </form>
   <a href="{% url 'demo:broken' %}">broken link</a>
   <a href="docs">read the docs</a> or the
   <a href="coverage">coverage report</a>
   <div id="app"></div>
+  <div>Check out the api: <a href="{% url 'keyvaluestore-list' %}">settings</a></div>
 {% endblock %}
 
 {% block scripts %}
+  <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
   <script src="static/demo/dist/{{ build_js }}"></script>
 {% endblock %}
