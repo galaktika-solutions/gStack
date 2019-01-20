@@ -59,12 +59,6 @@ shell_plus:
 test:
 	$(dcrun) django test
 
-# test_keepdb:
-# 	docker-compose run --rm django test keepdb
-#
-# coverage:
-# 	docker-compose run --rm django coverage
-
 .PHONY: docs
 docs:
 	$(dcrun) -e 'VERSION=$(timestamp)' django docs
@@ -74,3 +68,12 @@ makemigrations:
 
 makemessages:
 	$(dcrun) django makemessages
+
+push: build
+	VERSION=$(timestamp) docker-compose -f docker-compose.yml push
+	docker-compose -f docker-compose.yml down
+	@echo "========================="
+	@echo "VERSION: $(timestamp)"
+	@echo "========================="
+	git tag $(timestamp)
+	git push --tags
