@@ -6,6 +6,6 @@
 /backup
 /.files
 /django_project/*/static
-/js_client
+/js_client/node_modules
 
 **/__pycache__

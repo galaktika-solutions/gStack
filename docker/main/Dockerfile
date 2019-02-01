@@ -83,9 +83,8 @@ RUN pip install --no-cache-dir \
   django-sql-explorer==1.1.2 \
   django-rosetta==0.9.1
 
-# copy
-COPY / /src
+COPY --chown=django:django / /src
+
 WORKDIR /src
-RUN chown -R django:django /src
 
 ENTRYPOINT ["/src/docker/main/entrypoint.sh"]

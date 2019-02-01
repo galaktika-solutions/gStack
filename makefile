@@ -70,8 +70,8 @@ makemessages:
 	$(dcrun) django makemessages
 
 push: build
-	VERSION=$(timestamp) docker-compose -f docker-compose.yml push
-	docker-compose -f docker-compose.yml down
+	VERSION=$(timestamp) $(dc) build postgres
+	VERSION=$(timestamp) $(dc) push postgres
 	@echo "========================="
 	@echo "VERSION: $(timestamp)"
 	@echo "========================="
