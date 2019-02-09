@@ -105,13 +105,13 @@ fi
 ################################################################################
 if [ "$1" = 'makemigrations' ]; then
   find . -type d -name __pycache__ -exec rm -rf {} +
-  chown django:django django_project/*/migrations
+  chown django:django django_project/*/*migrations
   prepare -w django
   # We need to do some magic to run the final chown even if makemigration
   # fails and return the correct exit code
   exitcode=0
   gprun -u django -s SIGINT django-admin makemigrations || exitcode=$?
-  chown -R "$(stat -c %u:%g /src/.git)" django_project/*/migrations
+  chown -R "$(stat -c %u:%g /src/.git)" django_project/*/*migrations
   find . -type d -name __pycache__ -exec rm -rf {} +
   exit $exitcode
 fi
