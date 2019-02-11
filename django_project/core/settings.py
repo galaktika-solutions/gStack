@@ -75,6 +75,11 @@ INSTALLED_APPS = [
     'demo.apps.Config',
 ]
 
+# explorer has an issue, when it is fixed, we can remove this.
+MIGRATION_MODULES = {
+    'explorer': 'core.explorer_migrations',
+}
+
 # debug toolbar installs a log handler (ThreadTrackingHandler) on the root
 # logger which conflicts with mailer's management command
 if DEBUG and not os.environ.get('NO_DEBUG_TOOLBAR', ''):

@@ -18,5 +18,6 @@ class Migration(migrations.Migration):
                 ('key', models.CharField(max_length=100, unique=True)),
                 ('value', models.CharField(blank=True, max_length=255)),
             ],
+            options={'verbose_name': 'Key-Value Pair', 'verbose_name_plural': 'Key-Value Store'},
         ),
     ]
