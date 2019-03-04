@@ -1,8 +1,12 @@
+import os
+
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import DjangoModelPermissions
 from django.views.generic import View
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import View, TemplateView
 # from django.http import HttpResponse
 # from django.views import View
 # from asgiref.sync import async_to_sync
@@ -31,6 +35,20 @@ class PublishTranslations(View):
         except ImportError:
             pass  # Probably django was started in DEV mode
         return HttpResponseRedirect(reverse('rosetta-old-home-redirect'))
+
+
+class IndexView(LoginRequiredMixin, TemplateView):
+    template_name = 'core/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if os.environ.get('ENV', 'PROD') != 'DEV':
+            build_js = os.listdir('static/demo/dist')
+        else:
+            build_js = os.listdir('django_project/demo/static/demo/dist')
+        build_js = [f for f in build_js if f.endswith('.js')][0]
+        context['build_js'] = build_js
+        return context
 
 
 # class DjangoChannelsTestView(View):

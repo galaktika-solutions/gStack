@@ -4,7 +4,7 @@ from django.apps import apps
 from rest_framework.routers import DefaultRouter
 from django.views.i18n import JavaScriptCatalog
 
-from .views import KeyValueStoreViewset, PublishTranslations
+from .views import KeyValueStoreViewset, PublishTranslations, IndexView
 
 
 router = DefaultRouter()
@@ -30,6 +30,7 @@ urlpatterns = [
         JavaScriptCatalog.as_view(),
         name='javascript-catalog'
     ),
+    path('', IndexView.as_view()),
 ]
 
 if apps.is_installed('debug_toolbar'):

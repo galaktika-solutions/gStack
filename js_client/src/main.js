@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import Core from './core/core.jsx';
 
 const title = window.gettext("This is react") + " 🎉";
 
-ReactDOM.render(<div>{title}</div>, document.getElementById("app"));
+ReactDOM.render(<Core />, document.getElementById("app"));
