@@ -2,13 +2,13 @@
 set -e
 
 . /src/docker/main/utils.sh
-
 ################################################################################
 if [ "$1" = 'createsecret' ] || [ "$1" = 'readsecret' ]; then
   . /src/docker/main/secrets.sh
   "wrapped_$1"
   exit 0
 fi
+
 ################################################################################
 if [ "$1" = 'postgres' ]; then
   mkdir -p "$PGDATA"
@@ -216,7 +216,8 @@ from django.conf import settings
 django.setup()
 print(" ".join(["-l %s" % k for k, v in settings.LANGUAGES if k != "en"]), end="")')
 
-
+  owner="$(stat -c %u:%g .)"
+  find django_project -type d -exec chown django:django {} +
   docker/gprun.py -u django django-admin makemessages \
     $locales \
     --extension=html,py,tex \
@@ -225,6 +226,7 @@ print(" ".join(["-l %s" % k for k, v in settings.LANGUAGES if k != "en"]), end="
     --ignore=*js_client/* \
     --ignore=docs/* \
     --ignore=static/*
+  find django_project -type d -exec chown "$owner" {} +
 
   docker/gprun.py -u django django-admin makemessages --domain djangojs \
     $locales \
@@ -237,4 +239,14 @@ print(" ".join(["-l %s" % k for k, v in settings.LANGUAGES if k != "en"]), end="
 fi
 
 ################################################################################
+if [ "$1" = 'makemigrations' ]; then
+  prepare_django
+  find django_project -type d -name migrations -exec chown django:django {} +
+  docker/gprun.py -u django django-admin "$@" || true
+  find django_project -type d -name migrations -exec chown "$(stat -c %u:%g .git)" {} +
+  find . -name __pycache__ -exec rm -rf {} +
+  find django_project -path '*/migrations/*' -type f -exec chown "$(stat -c %u:%g .git)" {} +
+  exit 0
+fi
+
 exec "$@"

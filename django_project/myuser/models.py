@@ -1,26 +1,27 @@
+import uuid
+import logging
 from django.db import models
 from django.conf import settings
 from django.core.validators import MaxLengthValidator
-from mailer import send_html_mail
-from premailer import Premailer
 from django.template import loader
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.models import (
-    BaseUserManager, AbstractBaseUser
-)
-# from django_resized import ResizedImageField
-import uuid
-import logging
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
+from easy_thumbnails.fields import ThumbnailerImageField
+from mailer import send_html_mail
+from premailer import Premailer
 log = logging.getLogger('django')
 
 
 class Permission(models.Model):
-    name = models.CharField(max_length=30, unique=True)
+    name = models.CharField(_('Name'), max_length=30, unique=True)
     description = models.TextField(
-        _("Description"), validators=[MaxLengthValidator(255)], blank=True)
+        _("Description"),
+        validators=[MaxLengthValidator(255)],
+        blank=True
+    )
 
     def __str__(self):
-        return str(self.name)
+        return self.name
 
     @staticmethod
     def autocomplete_search_fields():
@@ -28,7 +29,7 @@ class Permission(models.Model):
 
 
 class Group(models.Model):
-    name = models.CharField(max_length=30, unique=True)
+    name = models.CharField(_('Name'), max_length=30, unique=True)
     permissions = models.ManyToManyField(Permission, through='GroupPermission')
 
     def __str__(self):
@@ -36,40 +37,31 @@ class Group(models.Model):
 
 
 class GroupPermission(models.Model):
-    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    group = models.ForeignKey(
+        Group,
+        verbose_name=_('Group'),
+        on_delete=models.CASCADE
+    )
     permission = models.ForeignKey(Permission, on_delete=models.CASCADE)
 
     def __str__(self):
-        return 'Group: %s Permission: %s' % (
-            self.group.name, self.permission.name)
+        return f'Group: {self.group.name} Permission: {self.permission.name}'
 
 
 class MyUserManager(BaseUserManager):
     def create_user(self, email, password=None):
-        """
-        Creates and saves a User with the given email
-        """
+        """ Creates and saves a User with the given email """
         if not email:
             raise ValueError('Users must have an email address')
 
-        user = self.model(
-            email=self.normalize_email(email),
-        )
-
+        user = self.model(email=self.normalize_email(email),)
         user.set_password(password)
         user.save()
-
         return user
 
     def create_superuser(self, email, password):
-        """
-        Creates and saves a superuser with the given email, date of
-        birth and password.
-        """
-        user = self.create_user(
-            email,
-            password=password,
-        )
+        """ Creates and saves a superuser with the given email and password. """
+        user = self.create_user(email, password=password)
         user.is_admin = True
         user.save()
         return user
@@ -87,39 +79,33 @@ class User(AbstractBaseUser):
     is_staff = models.BooleanField(_('Is Staff'), default=True)
     is_admin = models.BooleanField(_('Is Admin'), default=False)
     last_login = models.DateTimeField(_('Last Login'), blank=True, null=True),
-    # full_photo = ResizedImageField(
-    #     _('Full Photo'),
-    #     size=[150, 150],
-    #     upload_to=media_file_path,
-    #     blank=True
-    # )
-    # small_photo = ResizedImageField(
-    #     _('Small Photo'),
-    #     size=[29, 29],
-    #     upload_to=media_file_path,
-    #     blank=True
-    # )
+    full_photo = ThumbnailerImageField(
+        _('Full Photo'),
+        resize_source=dict(size=(150, 150)),
+        upload_to=media_file_path,
+        blank=True
+    )
+    small_photo = ThumbnailerImageField(
+        _('Small Photo'),
+        resize_source=dict(size=(29, 29)),
+        upload_to=media_file_path,
+        blank=True
+    )
     objects = MyUserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
-    class Meta:
-        ordering = ['email']
-
     def __str__(self):
-        return str(self.full_name)
+        return self.full_name
 
     @property
     def full_name(self):
         if self.first_name and self.last_name:
-            return (self.first_name + ' ' + self.last_name).strip()
+            return f'{self.first_name} {self.last_name}'.strip()
         elif self.last_name:
             return self.last_name
         return self.email
-
-    def get_full_name(self):
-        return self.first_name + ' ' + self.last_name
 
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"
@@ -147,7 +133,7 @@ class User(AbstractBaseUser):
         if old is None:
             from_email = settings.DEFAULT_FROM_EMAIL
             to_address = settings.ADMIN_EMAIL
-            email_subject = 'New user is created'
+            email_subject = _('New user is created')
             email_subject = settings.EMAIL_SUBJECT_PREFIX + email_subject
             content = {
                 'text': email_subject,
@@ -157,8 +143,7 @@ class User(AbstractBaseUser):
             }
 
             template = 'email_templates/new_user.html'
-            body = Premailer(loader.render_to_string(template, content))
-            body = body.transform()
+            body = Premailer(loader.render_to_string(template, content)).transform()
             send_html_mail(
                 email_subject,
                 body,
@@ -173,21 +158,25 @@ class User(AbstractBaseUser):
 
 
 class UserPermission(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    permission = models.ForeignKey(Permission, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, verbose_name=_('User'), on_delete=models.CASCADE)
+    permission = models.ForeignKey(
+        Permission,
+        verbose_name=_('Permission'),
+        on_delete=models.CASCADE
+    )
 
     def __str__(self):
-        return "#%s User: #%s Permission: #%s" % (
-            self.id, self.user.email, self.permission.name)
+        return f'#{self.id} User: {self.user.email} Permission: #{self.permission.name}'
 
 
 class Membership(models.Model):
     user = models.ForeignKey(
         User,
+        verbose_name=_('User'),
         on_delete=models.CASCADE,
         related_name='membership_user'
     )
-    group = models.ForeignKey(Group, on_delete=models.CASCADE,)
+    group = models.ForeignKey(Group, verbose_name=_('Group'), on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ('user', 'group')

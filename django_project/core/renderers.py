@@ -1,5 +1,3 @@
-# coding: utf-8
-# Django core and 3rd party imports
 from rest_framework.renderers import BrowsableAPIRenderer
 
 

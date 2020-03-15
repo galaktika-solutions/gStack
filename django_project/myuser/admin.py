@@ -1,12 +1,15 @@
-# coding: utf-8
-# Django core and 3rd party imports
 from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import ugettext_lazy as _
 
 from .models import (
-    User, Group, Permission, Membership, GroupPermission, UserPermission
+    User,
+    Group,
+    Permission,
+    Membership,
+    GroupPermission,
+    UserPermission
 )
 
 
@@ -16,16 +19,19 @@ class UserCreationForm(forms.ModelForm):
     repeated password.
     """
     password1 = forms.CharField(
-        label=_('Password'), widget=forms.PasswordInput)
+        label=_('Password'),
+        widget=forms.PasswordInput
+    )
     password2 = forms.CharField(
-        label=_('Password confirmation'), widget=forms.PasswordInput)
+        label=_('Password confirmation'),
+        widget=forms.PasswordInput
+    )
 
     class Meta:
         model = User
         fields = (
             'password1', 'password2', 'email', 'first_name', 'last_name',
-            'is_active', 'is_staff', 'is_admin',
-            # 'full_photo', 'small_photo'
+            'is_active', 'is_staff', 'is_admin', 'full_photo', 'small_photo'
         )
 
     def clean_password2(self):
@@ -38,7 +44,7 @@ class UserCreationForm(forms.ModelForm):
 
     def save(self, commit=True):
         """ Save the provided password in hashed format """
-        user = super(UserCreationForm, self).save(commit=False)
+        user = super().save(commit=False)
         user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
@@ -57,10 +63,10 @@ class MembershipInline(admin.TabularInline):
     extra = 0
 
 
+@admin.register(User)
 class MyUserAdmin(UserAdmin):
     """ The forms to add and change user instances """
     add_form = UserCreationForm
-
     list_display = ('id', 'email', 'is_active', 'is_staff', 'is_admin')
     list_display_links = list_display
     list_filter = ('is_admin', 'is_staff', 'is_active')
@@ -71,7 +77,7 @@ class MyUserAdmin(UserAdmin):
             {
                 'fields': (
                     'email', 'first_name', 'last_name', 'password',
-                    # 'full_photo', 'small_photo'
+                    'full_photo', 'small_photo'
                 )
             }
         ),
@@ -92,9 +98,6 @@ class MyUserAdmin(UserAdmin):
     inlines = [MembershipInline, UserPermissionInline]
 
 
-admin.site.register(User, MyUserAdmin)
-
-
 class GroupPermissionInline(admin.TabularInline):
     model = GroupPermission
     extra = 0
@@ -102,10 +105,11 @@ class GroupPermissionInline(admin.TabularInline):
     autocomplete_lookup_fields = {'fk': raw_id_fields}
 
     def get_queryset(self, request):
-        queryset = super(GroupPermissionInline, self).get_queryset(request)
+        queryset = super().get_queryset(request)
         return queryset.select_related()
 
 
+@admin.register(Group)
 class GroupAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
     list_display_links = list_display
@@ -115,9 +119,7 @@ class GroupAdmin(admin.ModelAdmin):
     inlines = [GroupPermissionInline, ]
 
 
-admin.site.register(Group, GroupAdmin)
-
-
+@admin.register(Permission)
 class PermissionAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'description')
     list_display_links = list_display
@@ -126,19 +128,12 @@ class PermissionAdmin(admin.ModelAdmin):
     model = Permission
 
 
-admin.site.register(Permission, PermissionAdmin)
-
-
+@admin.register(Membership)
 class MembershipAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'group')
     list_display_links = list_display
     list_per_page = 20
     list_filter = ('group', 'user')
     raw_id_fields = ('user', )
-    autocomplete_lookup_fields = {
-        'fk': raw_id_fields,
-    }
+    autocomplete_lookup_fields = {'fk': raw_id_fields}
     model = Membership
-
-
-admin.site.register(Membership, MembershipAdmin)

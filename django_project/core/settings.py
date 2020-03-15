@@ -1,9 +1,6 @@
-# coding: utf-8
-# Django core and 3rd party imports
 import os
 from django.utils.translation import ugettext_lazy as _
 
-# Project imports
 from .utils import read_secret
 
 
@@ -56,6 +53,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_auth',
     'django_filters',
+    'easy_thumbnails',
 
     # gStack packages
     'core',
@@ -169,10 +167,10 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
     # Use this if you want to disable the form on the BrowsableAPIRenderer
-    # 'DEFAULT_RENDERER_CLASSES': (
-    #     'rest_framework.renderers.JSONRenderer',
-    #     'core.renderers.BrowsableAPIRendererWithoutForm',
-    # ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'core.renderers.BrowsableAPIRendererWithoutForm',
+    ),
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
     ),

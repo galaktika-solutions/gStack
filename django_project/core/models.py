@@ -1,12 +1,8 @@
-# coding: utf-8
-# Django core and 3rd party imports
 from django.db import models
 
 
 class KeyValueStore(models.Model):
-    '''
-    We store here the application settings
-    '''
+    ''' We store here the application settings '''
     key = models.CharField(max_length=100, unique=True)
     value = models.CharField(max_length=255, blank=True)
 

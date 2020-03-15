@@ -8,7 +8,12 @@
   <span>{% trans "Language" %}</span>
   <select name="language">
     {% for lang in LANGUAGES %}
-    <option value="{{lang.0}}" {% if lang.0 == LANGUAGE_CODE %} selected{% endif %}>{{lang.1}}</option>
+      <option
+        value="{{lang.0}}"
+        {% if lang.0 == LANGUAGE_CODE %} selected{% endif %}
+      >
+        {{lang.1}}
+      </option>
     {% endfor %}
   </select>
   <input type="submit" style="padding: 7px 10px" value="Go">

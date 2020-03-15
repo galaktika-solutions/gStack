@@ -1,5 +1,3 @@
-# coding: utf-8
-# Django core and 3rd party imports
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import JsonWebsocketConsumer
 

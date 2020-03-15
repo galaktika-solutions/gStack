@@ -1,8 +1,11 @@
-{% spaceless %}
-{% autoescape off %}
+{% spaceless %} {% autoescape off %}
 
-<table width="550" ><tr><td>
-  {% block email_content %}{% endblock %}
+<table width="650">
+  <tr>
+    <td>
+      {% block email_content %}{% endblock %}
+    </td>
+  </tr>
 </table>
-{% endautoescape %}
-{% endspaceless %}
+
+{% endautoescape %} {% endspaceless %}

@@ -54,7 +54,7 @@ migrate:
 	docker-compose run --rm django with_django django-admin migrate
 
 makemigrations:
-	docker-compose run --rm django with_django django-admin makemigrations
+	docker-compose run --rm django makemigrations
 
 makemessages:
 	docker-compose run --rm django makemessages

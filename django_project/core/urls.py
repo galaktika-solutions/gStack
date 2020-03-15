@@ -1,33 +1,14 @@
-# coding: utf-8
-# Django core and 3rd party imports
 from django.urls import path, include
 from django.contrib import admin
 from django.conf import settings
-from rest_framework.routers import SimpleRouter
 from django.conf.urls.static import static
 from django.views.i18n import JavaScriptCatalog
 
-# Project imports
-from .views import KeyValueStoreViewset, DjangoChannelsTestView
-from .routers import ContainerRouter
+from .views import DjangoChannelsTestView
 
-# core viewsets
-SharedRouter = SimpleRouter()
-SharedRouter.register(
-    r'key_value_store',
-    KeyValueStoreViewset,
-    base_name='key_value_store'
-)
-
-# Register every other application SharedRouter in here
-# Example:
-# from pydoc import locate
-# router.register_router(locate('other.urls.SharedRouter'))
-router = ContainerRouter()
-router.register_router(SharedRouter)
 
 api_patterns = [
-    path('', include(router.urls)),
+    path("", include("core.urls_api")),
 ]
 
 urlpatterns = [

@@ -3,7 +3,7 @@ FROM ubuntu:bionic-20200219
 ENV DEBIAN_FRONTEND noninteractive
 
 # locales
-RUN apt-get update && apt-get install -y locales wget latexmk build-essential rsync gettext
+RUN apt-get update && apt-get install -y locales wget latexmk build-essential rsync gettext git
 RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 ENV LANG en_US.utf8
 
@@ -22,7 +22,7 @@ ENV PATH $PATH:/usr/lib/postgresql/$PG_MAJOR/bin
 ENV PGDATA /data/postgres
 
 # python
-RUN apt-get update && apt-get install -y python3.6 python3-venv
+RUN apt-get update && apt-get install -y python3.6 python3-venv python3.6-dev gcc
 RUN python3.6 -m venv /python
 ENV PATH /python/bin:$PATH
 ENV PYTHONPATH /src/django_project/
@@ -43,12 +43,6 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log
 # redis
 RUN groupadd -r redis --gid=6379 && useradd -r -g redis --uid=6379 redis
 RUN apt-get install -y redis
-
-RUN apt-get update && apt-get install -y \
-  build-essential \
-  python3.6-dev \
-  gcc \
-  git
 
 # pip packages
 RUN pip install --no-cache-dir django==2.2.9
