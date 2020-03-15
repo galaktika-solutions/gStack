@@ -1,5 +1,4 @@
-FROM ubuntu:bionic-20180821
-
+FROM ubuntu:bionic-20200219
 ENV DEBIAN_FRONTEND noninteractive
 
 # locales
@@ -8,7 +7,7 @@ RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 ENV LANG en_US.utf8
 
 RUN apt-get update && apt-get install -y curl gnupg
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
 RUN apt-get update && apt-get install -y nodejs
 
 # python

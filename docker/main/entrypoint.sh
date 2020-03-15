@@ -27,11 +27,6 @@ if [ "$1" = 'postgres' ]; then
   chown postgres:postgres "$PGDATA/postgresql.conf"
   chmod 400 "$PGDATA/postgresql.conf"
 
-  # put these files where they are needed
-  readsecret CERTIFICATE_KEY /server.key postgres:postgres 400
-  readsecret CERTIFICATE_CRT /server.crt postgres:postgres 400
-  readsecret CERTIFICATE_CACERT /ca.crt postgres:postgres 400
-
   # read needed variables to fail early
   DB_PASSWORD="$(readsecret DB_PASSWORD)"
   MD5_DB_PASSWORD_POSTGRES=\'md5"$(echo -n "${DB_PASSWORD}postgres" | md5sum | awk '{print $1;}')"\'

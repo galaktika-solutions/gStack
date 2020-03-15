@@ -102,12 +102,6 @@ prepare_django() {
   readsecret EMAIL_HOST_USER /run/secrets/EMAIL_HOST_USER django:django 400
   readsecret EMAIL_HOST_PASSWORD /run/secrets/EMAIL_HOST_PASSWORD django:django 400
 
-  # the django postgres client looks for these certs in ~/.postgresql
-  mkdir -p /home/django/.postgresql
-  readsecret CERTIFICATE_KEY /home/django/.postgresql/postgresql.key django:django 400
-  readsecret CERTIFICATE_CRT /home/django/.postgresql/postgresql.crt django:django 400
-  readsecret CERTIFICATE_CACERT /home/django/.postgresql/root.crt django:django 400
-
   # make sure files and directories permissions are correct by setting the setgid bit
   # the other part of the story is settings.FILE_UPLOAD_DIRECTORY_PERMISSIONS
   mkdir -p /data/files

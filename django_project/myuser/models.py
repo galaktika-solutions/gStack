@@ -8,7 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
-from django_resized import ResizedImageField
+# from django_resized import ResizedImageField
 import uuid
 import logging
 log = logging.getLogger('django')
@@ -87,18 +87,18 @@ class User(AbstractBaseUser):
     is_staff = models.BooleanField(_('Is Staff'), default=True)
     is_admin = models.BooleanField(_('Is Admin'), default=False)
     last_login = models.DateTimeField(_('Last Login'), blank=True, null=True),
-    full_photo = ResizedImageField(
-        _('Full Photo'),
-        size=[150, 150],
-        upload_to=media_file_path,
-        blank=True
-    )
-    small_photo = ResizedImageField(
-        _('Small Photo'),
-        size=[29, 29],
-        upload_to=media_file_path,
-        blank=True
-    )
+    # full_photo = ResizedImageField(
+    #     _('Full Photo'),
+    #     size=[150, 150],
+    #     upload_to=media_file_path,
+    #     blank=True
+    # )
+    # small_photo = ResizedImageField(
+    #     _('Small Photo'),
+    #     size=[29, 29],
+    #     upload_to=media_file_path,
+    #     blank=True
+    # )
     objects = MyUserManager()
 
     USERNAME_FIELD = 'email'

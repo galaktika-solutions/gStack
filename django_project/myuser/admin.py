@@ -24,7 +24,9 @@ class UserCreationForm(forms.ModelForm):
         model = User
         fields = (
             'password1', 'password2', 'email', 'first_name', 'last_name',
-            'is_active', 'is_staff', 'is_admin', 'full_photo', 'small_photo')
+            'is_active', 'is_staff', 'is_admin',
+            # 'full_photo', 'small_photo'
+        )
 
     def clean_password2(self):
         """ Check that the two password entries match """
@@ -64,9 +66,15 @@ class MyUserAdmin(UserAdmin):
     list_filter = ('is_admin', 'is_staff', 'is_active')
     readonly_fields = ['last_login', ]
     fieldsets = (
-        ('Personal info',
-            {'fields': ('email', 'first_name', 'last_name', 'password',
-                        'full_photo', 'small_photo')}),
+        (
+            'Personal info',
+            {
+                'fields': (
+                    'email', 'first_name', 'last_name', 'password',
+                    # 'full_photo', 'small_photo'
+                )
+            }
+        ),
         ('Permissions',
             {'fields': ('is_active', 'is_staff', 'is_admin', )}),
     )

@@ -150,9 +150,6 @@ DATABASES = {
         'NAME': 'django',
         'USER': 'django',
         'PASSWORD': db_password,
-        'OPTIONS': {
-            'sslmode': 'verify-ca',
-        },
     },
     'explorer': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -163,10 +160,7 @@ DATABASES = {
         'PASSWORD': db_password,
         'TEST': {
             'MIRROR': 'default',
-        },
-        'OPTIONS': {
-            'sslmode': 'verify-ca',
-        },
+        }
     },
 }
 

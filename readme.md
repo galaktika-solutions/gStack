@@ -1,4 +1,5 @@
-#  Galaktika Solutions - Software Stack
+# Galaktika Solutions - Software Stack
+
 - PIP [![Requirements Status](https://requires.io/github/galaktika-solutions/gStack/requirements.svg?branch=master)](https://requires.io/github/galaktika-solutions/gStack/requirements/?branch=master)
 - NodeJS [![dependencies Status](https://david-dm.org/galaktika-solutions/gStack/status.svg?path=js_client)](https://david-dm.org/galaktika-solutions/gStack?path=js_client)
 - Python 3.6
@@ -6,6 +7,7 @@
 - Nginx [latest]
 
 # `.env`
+
 ```env
 COMPOSE_FILE=docker-compose.yml:docker-compose.dev.yml
 COMPOSE_PROJECT_NAME=gstacktest
@@ -30,10 +32,10 @@ RETRY_DEFERRED_TASK=True
 ```
 
 # `.secret.env`
+
 ```env
 DJANGO_SECRET_KEY=
 DB_PASSWORD=
-CERTIFICATE_CACERT=
 CERTIFICATE_CRT=
 CERTIFICATE_KEY=
 EMAIL_HOST_USER=
