@@ -5,12 +5,13 @@ from .utils import read_secret
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DEBUG = os.environ.get('ENV') == 'DEV'
-PROD = os.environ.get('ENV') == 'PROD'
+ENV = os.environ.get('ENV')
+DEBUG = ENV == 'DEV'
+PROD = ENV == 'PROD'
 
 STATIC_URL = '/static/'
 STATIC_ROOT = '/src/static/'
-LATEX_STATIC_ROOT = '/src/backend/core/static/' if DEBUG else STATIC_ROOT
+LATEX_STATIC_ROOT = '/src/django_project/core/static/' if DEBUG else STATIC_ROOT
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -63,6 +64,7 @@ INSTALLED_APPS = [
     # gStack packages
     'core',
     'myuser',
+    'latex',
 
     # django core packages -> Load them here so we can override them
     'django.contrib.admin',

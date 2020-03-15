@@ -16,6 +16,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('explorer/', include('explorer.urls')),
     path('api/', include((api_patterns, 'api'), namespace='api')),
+    path('pdf/', include('latex.urls')),
     path('rest-auth/', include('rest_auth.urls')),
     path('django-channels/test/', DjangoChannelsTestView.as_view()),
     path('rosetta/', include('rosetta.urls')),

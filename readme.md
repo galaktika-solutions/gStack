@@ -3,7 +3,7 @@
 - PIP [![Requirements Status](https://requires.io/github/galaktika-solutions/gStack/requirements.svg?branch=master)](https://requires.io/github/galaktika-solutions/gStack/requirements/?branch=master)
 - NodeJS [![dependencies Status](https://david-dm.org/galaktika-solutions/gStack/status.svg?path=js_client)](https://david-dm.org/galaktika-solutions/gStack?path=js_client)
 - Python 3.6
-- Postgres 10 [latest]
+- Postgres 12 [latest]
 - Nginx [latest]
 
 # `.env`

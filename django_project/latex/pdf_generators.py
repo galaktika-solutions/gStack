@@ -5,17 +5,19 @@ from django.utils.translation import ugettext_lazy as _
 from .pdf_converter import render_to_pdf
 
 
-def hello_world(ctx, language, preview, user=None):
+def hello_world_pdf(ctx, language="en", preview=True, user=None):
     translation.activate(language)
     ctx['now'] = datetime.datetime.now()
-    subject = _('Hello World')
-    file_name = 'hello_world'
-
     email = None
     if preview is False and user is not None:
         email = {
-            'subject': subject,
+            'subject': _('Hello World'),
             'to': [user.email, ]
         }
 
-    return render_to_pdf('hello_world.tex', file_name, ctx, email)
+    return render_to_pdf(
+        template_src='hello_world.tex',
+        filename='hello_world',
+        context_dict=ctx,
+        email=email
+    )
