@@ -1,3 +1,54 @@
 {
-  "extends": "react-app"
+  "ecmaFeatures": {
+    "jsx": true,
+    "modules": true
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "parser": "babel-eslint",
+  "plugins": ["react"],
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "settings": {
+    "react": {
+      "version": "15.4.2",
+      "createClass": "createClass"
+    }
+  },
+  "rules": {
+    "no-unexpected-multiline": "off",
+    "max-len": ["warn", {"code": 99}],
+    "eqeqeq": ["error"],
+
+    "semi": ["warn"],
+    "block-scoped-var": ["warn"],
+    "no-floating-decimal": ["warn"],
+    "no-multi-spaces": ["warn"],
+    "array-bracket-spacing": ["warn"],
+    "block-spacing": ["warn"],
+    "brace-style": ["warn"],
+    "camelcase": ["warn", {"properties": "never"}],
+    "comma-dangle": ["warn"],
+    "comma-spacing": ["warn"],
+    "comma-style": ["warn"],
+    "computed-property-spacing": ["warn"],
+    "func-call-spacing": ["warn"],
+    "func-style": ["warn"],
+    "jsx-quotes": ["warn"],
+    "key-spacing": ["warn"],
+    "keyword-spacing": ["warn"],
+    "max-depth": ["warn"],
+    "no-multiple-empty-lines": ["warn"],
+    "no-tabs": ["warn"],
+    "no-trailing-spaces": ["warn"],
+    "no-unneeded-ternary": ["warn"],
+
+    "react/no-find-dom-node": ["warn"],
+    "react/no-did-mount-set-state": ["error"],
+    "react/no-did-update-set-state": ["off"],
+    "react/self-closing-comp": ["error"],
+    "react/jsx-wrap-multilines": ["error"],
+    "react/display-name": ["off"]
+  }
 }

@@ -1,17 +1,23 @@
 {
-  "name": "js_client",
-  "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "react": "16.4.2",
-    "react-dom": "16.4.2",
-    "react-scripts": "1.1.5",
-    "django-channels": "1.1.6"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.13.0",
+    "eslint-plugin-react": "^7.12.4",
+    "react-hot-loader": "^4.3.3",
+    "webpack": "^4.15.1",
+    "webpack-cli": "^3.0.8",
+    "react": "15.5.4",
+    "react-dom": "15.5.4",
+    "prop-types": "15.6.2",
+    "react-addons-pure-render-mixin": "15.5.2",
+    "react-router": "3.2.1",
+    "history": "3.3.0",
+    "lodash": "4.17.11",
+    "django-channels": "2.1.3"
   }
 }

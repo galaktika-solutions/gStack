@@ -67,6 +67,7 @@ RUN pip install --no-cache-dir django-rosetta==0.9.3
 RUN pip install --no-cache-dir premailer==3.6.1
 RUN pip install --no-cache-dir bleach==3.1.0
 RUN pip install --no-cache-dir easy-thumbnails==2.7
+RUN pip install --no-cache-dir django-compressor==2.3
 
 # copy
 COPY / /src

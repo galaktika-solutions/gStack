@@ -232,15 +232,16 @@ print(" ".join(["-l %s" % k for k, v in settings.LANGUAGES if k != "en"]), end="
     --ignore=*/migrations/* \
     --ignore=*js_client/* \
     --ignore=docs/* \
-    --ignore=static/*
+    --ignore=static/* \
+    --ignore=backup/*
   find django_project -type d -exec chown "$owner" {} +
 
-  docker/gprun.py -u django django-admin makemessages --domain djangojs \
+  cd /src/static
+  chown django:django .
+  /src/docker/gprun.py -u django django-admin makemessages --domain djangojs \
     $locales \
-    -v 2 \
-    --ignore=docs/* \
-    --ignore=js_client/build/* \
-    --ignore=*node_modules/*
+    -v 2
+  chown "$owner" .
 
   exit 0
 fi

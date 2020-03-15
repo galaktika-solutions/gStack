@@ -3,8 +3,8 @@ version: "3.7"
 services:
   postgres:
     build:
-        context: .
-        dockerfile: docker/main/Dockerfile
+      context: .
+      dockerfile: docker/main/Dockerfile
     volumes:
       - ".:/src"
     logging:
@@ -38,13 +38,13 @@ services:
 
   build_js:
     build:
-        context: .
-        dockerfile: docker/node/Dockerfile
+      context: .
+      dockerfile: docker/node/Dockerfile
     image: ${COMPOSE_PROJECT_NAME}-node
     volumes:
       - ".:/src"
     env_file: .env
-    command: ["npm", "start"]
+    command: ["watch"]
 
   backup:
     volumes:

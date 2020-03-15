@@ -9,7 +9,7 @@ application = ProtocolTypeRouter({
     'websocket': AuthMiddlewareStack(
         URLRouter(
             [
-                path('ws', consumers.Websocket),
+                path('ws/', consumers.Websocket),
             ]
         )
     ),

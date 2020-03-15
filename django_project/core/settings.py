@@ -8,11 +8,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEBUG = os.environ.get('ENV') == 'DEV'
 PROD = os.environ.get('ENV') == 'PROD'
 
-STATIC_URL = '/assets/'
+STATIC_URL = '/static/'
 STATIC_ROOT = '/src/static/'
+LATEX_STATIC_ROOT = '/src/backend/core/static/' if DEBUG else STATIC_ROOT
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'compressor.finders.CompressorFinder'
 )
+STATICFILES_DIRS = ['/src/js_client/', ]
 
 MEDIA_ROOT = '/data/files/media/'
 MEDIA_URL = '/media/'
@@ -52,6 +56,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth',
+    'compressor',
     'django_filters',
     'easy_thumbnails',
 

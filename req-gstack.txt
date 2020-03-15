@@ -20,3 +20,4 @@ django-rosetta==0.9.3
 premailer==3.6.1
 bleach==3.1.0
 easy-thumbnails==2.7
+django-compressor==2.3

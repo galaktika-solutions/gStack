@@ -1,0 +1,25 @@
+{% load staticfiles %}
+{% load i18n %}
+{% load compress %}
+
+<html>
+  <head>
+    <link rel="shortcut icon" type="image/ico" href="{% static 'images/favicon.ico' %}" />
+    <title>gStack</title>
+    {% compress css %}
+      <link href="{% static 'css/base.css' %}" rel="stylesheet" type="text/css">
+    {% endcompress %}
+  </head>
+  <body data-user-id="{{user.id}}" version="{{VERSION}}">
+    <div class="react-root"></div>
+    <!-- JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+    <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
+    {% compress js %}
+    <script>
+      var websocket = new WebSocket('wss://' + window.location.host +'/ws/')
+      websocket.onmessage = (event) => {console.log(event)}
+    </script>
+    <script type="text/javascript" src="{% static 'build.js' %}"></script>
+    {% endcompress %}
+  </body>
+</html>

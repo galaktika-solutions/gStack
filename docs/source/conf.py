@@ -58,7 +58,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = os.environ.get('COMPOSE_PROJECT_NAME')
-copyright = '2018, Galaktika Solutions'
+copyright = '2020, Galaktika Solutions'
 author = 'Galaktika Solutions'
 
 # The version info for the project you're documenting, acts as replacement for

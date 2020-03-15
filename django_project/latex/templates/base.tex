@@ -1,0 +1,75 @@
+{% autoescape off %}
+
+{% block documentclass %}
+\documentclass[a4paper, 10pt]{article}
+{% endblock %}
+
+\usepackage[hmargin=0.5in,vmargin=0.5in, bottom=0.7in]{geometry}
+\usepackage{fontspec}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{comment}
+\usepackage{fancyhdr}
+\usepackage[document]{ragged2e}
+
+{% if not PROD %}
+  \usepackage{draftwatermark}
+  \SetWatermarkText{\textbf{ {{ENV}} } }
+  \SetWatermarkScale{1.5}
+{% endif %}
+
+\begin{comment}
+{% load tex_escape from custom_temp_tags %}
+{% load i18n %}
+\end{comment}
+
+\newcommand{\x}{}
+\graphicspath{ {\x{{LATEX_STATIC_ROOT}}images/} }
+
+\newcolumntype{N}{@{}m{0pt}@{}}
+
+\newcommand\dotline[2][.5em]{\leavevmode\hbox to #2{\dotfill{#1}\hfil}}
+\newcolumntype{C}[1]{>{\centering}m{#1}}
+
+\newcommand{\galaktikafooter}{\cfoot{\footnotesize{Galaktika Solutions }} }
+
+\pagestyle{fancy}
+\fancyhf{}
+\headheight=4cm
+\headsep=0cm
+\textheight=24cm
+\raggedright
+\tolerance=1
+\emergencystretch=\maxdimen
+\hyphenpenalty=10000
+\hbadness=10000
+
+\renewcommand{\footrulewidth}{0pt}
+\renewcommand{\headrulewidth}{0pt}
+\chead{\renewcommand{\arraystretch}{2}\begin{tabular}{c}\includegraphics{logo.png} \\ \\ \\ \end{tabular}\renewcommand{\arraystretch}{1}}
+\renewcommand{\footrulewidth}{0pt}
+\renewcommand{\headrulewidth}{0pt}
+\cfoot{-\thepage-}
+
+
+\fancypagestyle{first_page}{
+  \fancyhf{}
+  \setlength{\headheight}{3cm}
+  \setlength{\headsep}{1cm}
+  \setlength{\textheight}{25cm}
+  \galaktikafooter
+  \renewcommand{\footrulewidth}{0pt}
+  \renewcommand{\headrulewidth}{0pt}
+  \chead{\includegraphics[scale=0.08]{logo-black.png}}
+}
+
+\fancypagestyle{first_page_only_footer}{
+  \galaktikafooter
+  \renewcommand{\footrulewidth}{0pt}
+  \renewcommand{\headrulewidth}{0pt}
+}
+
+{% block content %}
+{% endblock %}
+
+{% endautoescape %}

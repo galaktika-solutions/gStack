@@ -8,3 +8,4 @@ __pycache__
 /backup
 /static
 /docs/build
+/django_project/core/static/build.js

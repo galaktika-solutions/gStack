@@ -15,15 +15,19 @@ collectstatic:
 
 build:
 	$(devcompose) docker-compose down
+	docker run --rm -v "$(CURDIR):/src/" ubuntu:bionic-20200219 bash -c "rm -rf /src/static/"
 	$(devcompose) docker-compose build
 	$(devcompose) docker-compose run --rm build_js npm install
-	$(devcompose) docker-compose run --rm build_js npm run build
+	$(devcompose) docker-compose run --rm build_js build
 	$(devcompose) docker-compose run --rm django with_django django-admin createcachetable
 	$(devcompose) docker-compose run --rm django collectstatic
 	$(devcompose) docker-compose run --rm -e 'VERSION=$(timestamp)' django docs
-	cp -R js_client/build/ static
 	$(devcompose) docker-compose build
 	$(devcompose) docker-compose down
+
+build_js_only:
+	$(devcompose) docker-compose run --rm build_js npm install
+	$(devcompose) docker-compose run --rm build_js build
 
 create_dev_certificates:
 	docker-compose run --rm -u $(usr) -w /src/.files postgres ./create_dev_certificates.sh
@@ -33,6 +37,9 @@ shell_plus:
 
 create_superuser:
 	docker-compose run --rm django with_django django-admin createsuperuser
+
+node_bash:
+	docker-compose run --rm -u "$(usr)" build_js bash
 
 bash:
 	docker-compose run --rm django with_django bash

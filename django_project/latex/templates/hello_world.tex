@@ -1,0 +1,17 @@
+{% extends 'base.tex' %}
+{% block content %}
+\usepackage[document]{ragged2e}
+\usepackage{float}
+
+\begin{comment}
+{% load tex_escape from custom_temp_tags %}
+{% load i18n %}
+\end{comment}
+
+\newcommand{\helloworld}{{% trans "Hello World"|tex_escape %}\hskip0pt}
+
+\begin{document}
+  \thispagestyle{first_page}
+  \helloworld
+\end{document}
+{% endblock %}
