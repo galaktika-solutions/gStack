@@ -37,6 +37,9 @@ create_superuser:
 bash:
 	docker-compose run --rm django with_django bash
 
+super_bash:
+	docker-compose run --rm django with_django_superuser bash
+
 test:
 	docker-compose run --rm django test
 

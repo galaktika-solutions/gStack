@@ -165,6 +165,13 @@ if [ "$1" = 'with_django' ]; then
 fi
 
 ################################################################################
+if [ "$1" = 'with_django_superuser' ]; then
+  shift
+  prepare_django
+  exec docker/gprun.py -s SIGINT "$@"
+fi
+
+################################################################################
 if [ "$1" = 'backup' ]; then
   typ="$(ask_user "What do you want to backup?" db files both)"
   if [ "$typ" = 'db' ] || [ "$typ" = 'both' ]; then
