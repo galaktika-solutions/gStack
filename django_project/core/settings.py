@@ -6,6 +6,7 @@ from .utils import read_secret
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ENV = os.environ.get('ENV')
+VERSION = os.environ.get('VERSION')
 DEBUG = ENV == 'DEV'
 PROD = ENV == 'PROD'
 
@@ -125,6 +126,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'core.context_processor.extra_context'
             ],
         },
     },
