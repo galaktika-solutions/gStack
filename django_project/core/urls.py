@@ -4,11 +4,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.i18n import JavaScriptCatalog
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.generic import TemplateView
 
 from .views import DjangoChannelsTestView, React
 
-# # grappelli need this
-# admin.autodiscover()
 
 api_patterns = [
     path("", include("core.urls_api")),
@@ -30,6 +29,9 @@ urlpatterns = [
 
 if settings.DEBUG:
     import debug_toolbar
-    urlpatterns = [
+    urlpatterns += [
         path('__debug__/', include(debug_toolbar.urls)),
-    ] + urlpatterns
+        path("403/", TemplateView.as_view(template_name="403.html")),
+        path("404/", TemplateView.as_view(template_name="404.html")),
+        path("500/", TemplateView.as_view(template_name="500.html")),
+    ]

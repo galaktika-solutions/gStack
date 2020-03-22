@@ -1,0 +1,29 @@
+{% load staticfiles %}
+{% load i18n %}
+{% load bleach_escape from custom_temp_tags %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="shortcut icon" type="image/ico" href="{% static 'images/favicon.ico' %}" />
+    <title>ERROR</title>
+    <style>
+      body { text-align: center; padding: 100px; }
+      h1 { font-size: 50px; text-align: center}
+      h3 { text-align: center}
+      body { font: 20px Helvetica, sans-serif; color: #333; background: #bf8f46}
+      article { display: block; width: 1024px; margin: 0 auto; text-align: center}
+    </style>
+  </head>
+  <body>
+    <div class="row">
+      <div>
+        </div>
+        <article>
+          <h1>{% trans "500 - Oops! Something went wrong."|bleach_escape %}</h1>
+          <h3>{% trans "Please contact a gStack Admin"|bleach_escape %}</h3>
+        </article>
+        <div ><img style="max-height: 320px" src="{% static 'images/500.gif' %}"/>
+      </div>
+  </body>
+</html>
