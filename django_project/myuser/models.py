@@ -6,8 +6,9 @@ from django.core.validators import MaxLengthValidator
 from django.template import loader
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
+from django.db import transaction
+from django.core.mail import EmailMessage
 from easy_thumbnails.fields import ThumbnailerImageField
-from mailer import send_html_mail
 from premailer import Premailer
 log = logging.getLogger('django')
 
@@ -125,32 +126,35 @@ class User(AbstractBaseUser):
     def is_superuser(self):
         return self.is_admin
 
+    @transaction.atomic
     def save(self):
         old = None
         if self.id is not None:
             old = User.objects.get(pk=self.id)
         super().save()
-        if old is None:
-            from_email = settings.DEFAULT_FROM_EMAIL
-            to_address = settings.ADMIN_EMAIL
-            email_subject = _('New user is created')
-            email_subject = settings.EMAIL_SUBJECT_PREFIX + email_subject
-            content = {
-                'text': email_subject,
-                'from_email': from_email,
-                'subject': email_subject,
-                'email': self.email,
-            }
+        if old is None or True:
+            subject = _('New user is created')
 
-            template = 'email_templates/new_user.html'
-            body = Premailer(loader.render_to_string(template, content)).transform()
-            send_html_mail(
-                email_subject,
-                body,
-                body,
-                settings.DEFAULT_FROM_EMAIL,
-                [to_address]
+            # create the email body with the Premailer (which can handle css also)
+            body = Premailer(
+                loader.render_to_string(
+                    template_name='email_templates/new_user.html',
+                    context={
+                        'text': subject,
+                        'subject': subject,
+                        'email': self.email,
+                    }
+                )
+            ).transform()
+
+            # send the email to notify the admins regarding the new user
+            msg = EmailMessage(
+                subject=subject,
+                body=body,
+                to=[settings.ADMIN_EMAIL]
             )
+            msg.content_subtype = "html"
+            msg.send()
 
     @staticmethod
     def autocomplete_search_fields():

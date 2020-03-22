@@ -89,15 +89,16 @@ services:
       options:
         tag: "docker/${COMPOSE_PROJECT_NAME}-backup"
 
-  tasks:
+  mailsender:
     image: ${REGISTRY_URL}/${COMPOSE_PROJECT_NAME}-main:${VERSION}
-    container_name: ${COMPOSE_PROJECT_NAME}-tasks
-    command: ["with_django", "/src/tasks/tasks.py"]
+    container_name: ${COMPOSE_PROJECT_NAME}-mailsender
     depends_on: ["postgres"]
+    command: ["with_django", "/src/periodic_tasks/mailsender/start.py"]
     volumes:
       - "./.secret.env:/.secret.env"
+      - "data:/data"
     env_file: .env
     logging:
       driver: syslog
       options:
-        tag: "docker/${COMPOSE_PROJECT_NAME}-tasks"
+        tag: "docker/${COMPOSE_PROJECT_NAME}-mailsender"

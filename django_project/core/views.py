@@ -1,7 +1,6 @@
 from django.http import HttpResponse
 from django.views import View
 from django.views.generic import TemplateView
-from django.contrib.auth.mixins import LoginRequiredMixin
 from rest_framework.viewsets import ModelViewSet
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
@@ -30,5 +29,5 @@ class DjangoChannelsTestView(View):
         return HttpResponse('Message was sent to everybody.')
 
 
-class React(LoginRequiredMixin, TemplateView):
+class React(TemplateView):
     template_name = 'basic.html'

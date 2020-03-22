@@ -30,8 +30,8 @@ BASE_URL = os.environ.get('HOST_NAME')
 
 # Email related settings
 ADMINS = [('IT Team', os.environ['ADMIN_EMAIL'])]
-EMAIL_BACKEND = 'mailer.backend.DbBackend'
-MAILER_EMAIL_BACKEND = 'core.rewrite_email_backend.EmailBackend'
+EMAIL_BACKEND = 'email_backend.backend.CustomEmailBackend'
+
 SERVER_EMAIL = os.environ['SERVER_EMAIL']
 EMAIL_SUBJECT_PREFIX = '[%s] ' % os.environ.get('HOST_NAME')
 EMAIL_HOST = os.environ['EMAIL_HOST']
@@ -40,7 +40,6 @@ EMAIL_HOST_USER = read_secret('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = read_secret('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = os.environ['DEFAULT_FROM_EMAIL']
 EMAIL_USE_TLS = os.environ['EMAIL_USE_TLS']
-MAILER_LOCK_PATH = '/tmp/mailer_lock'
 ADMIN_EMAIL = os.environ['ADMIN_EMAIL']
 
 INSTALLED_APPS = [
@@ -53,7 +52,6 @@ INSTALLED_APPS = [
 
     # 3rd party packages -> Load them before the our packages are loaded
     'django_extensions',
-    'mailer',
     'channels',
     'rest_framework',
     'rest_framework.authtoken',
@@ -65,6 +63,7 @@ INSTALLED_APPS = [
     # gStack packages
     'core',
     'myuser',
+    'email_backend',
     'latex',
 
     # django core packages -> Load them here so we can override them
@@ -173,7 +172,7 @@ DATABASES = {
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ),
     # Use this if you want to disable the form on the BrowsableAPIRenderer
     'DEFAULT_RENDERER_CLASSES': (
@@ -205,7 +204,7 @@ LANGUAGE_CODE = 'en'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = False
-USE_TZ = True
+USE_TZ = False
 
 LANGUAGES = (
     ('en', _('English')),

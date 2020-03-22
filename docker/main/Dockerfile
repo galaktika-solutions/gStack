@@ -56,7 +56,6 @@ RUN pip install --no-cache-dir xlsxwriter==1.2.7
 RUN pip install --no-cache-dir django-extensions==2.2.5
 RUN pip install --no-cache-dir coverage==5.0.1
 RUN pip install --no-cache-dir periodtask==0.7.0
-RUN pip install --no-cache-dir django-mailer==2.0.1
 RUN pip install --no-cache-dir sphinx==2.3.1
 RUN pip install --no-cache-dir sphinx_rtd_theme==0.4.3
 RUN pip install --no-cache-dir djangorestframework==3.10.3
@@ -68,6 +67,7 @@ RUN pip install --no-cache-dir premailer==3.6.1
 RUN pip install --no-cache-dir bleach==3.1.0
 RUN pip install --no-cache-dir easy-thumbnails==2.7
 RUN pip install --no-cache-dir django-compressor==2.3
+RUN pip install --no-cache-dir django-grappelli==2.13.4
 
 # copy
 COPY / /src

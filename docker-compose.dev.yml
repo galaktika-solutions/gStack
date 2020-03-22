@@ -52,7 +52,7 @@ services:
     logging:
       driver: json-file
 
-  tasks:
+  mailsender:
     volumes:
       - ".:/src"
     logging:

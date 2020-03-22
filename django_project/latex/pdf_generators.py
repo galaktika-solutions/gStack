@@ -9,7 +9,7 @@ def hello_world_pdf(ctx, language="en", preview=True, user=None):
     translation.activate(language)
     ctx['now'] = datetime.datetime.now()
     email = None
-    if preview is False and user is not None:
+    if not preview and not user.is_anonymous:
         email = {
             'subject': _('Hello World'),
             'to': [user.email, ]

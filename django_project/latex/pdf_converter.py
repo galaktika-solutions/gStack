@@ -35,13 +35,8 @@ def render_to_pdf(template_src, filename, context_dict, email=None):
     all_ok = process.returncode == 0 and os.path.isfile(pdf)
 
     if email and all_ok:
-        subject = email['subject']
-        if not settings.PROD:
-            subject = f'{settings.EMAIL_SUBJECT_PREFIX}{subject}'
-
         EmailMessage(
-            subject=subject,
-            from_email=email.get('from_email', settings.DEFAULT_FROM_EMAIL),
+            subject=email['subject'],
             body=email.get('body', ''),
             to=email['to'],
             attachments=[(f'{filename}.pdf', File(open(pdf, 'rb')), 'application/pdf')]
