@@ -1,0 +1,18 @@
+{% spaceless %}
+{% if request.session.original_user %}
+  <li>
+    <a href="{% url 'grp_switch_user' request.session.original_user.id %}?redirect=/admin/"
+       class="grp-switch-user-is-original font-red-thunderbird">
+      <span style="color: red">{{request.session.original_user.username}}</span>
+    </a>
+  </li>
+{% endif %}
+{% for user in object_list %}
+  <li>
+    <a href="{% url 'grp_switch_user' user.id %}?redirect=/react/#/dashboard/"
+       class="grp-switch-user-is-target">
+      {% firstof user.get_short_name user.get_username %}
+    </a>
+  </li>
+{% endfor %}
+{% endspaceless %}

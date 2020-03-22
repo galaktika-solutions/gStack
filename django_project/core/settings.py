@@ -75,7 +75,7 @@ INSTALLED_APPS = [
     'compressor',
     'django_filters',
     'easy_thumbnails',
-    'grappelli',
+    'auditlog',
 
     # gStack packages
     'core',
@@ -83,7 +83,8 @@ INSTALLED_APPS = [
     'email_backend',
     'latex',
 
-    # django core packages -> Load them here so we can override them
+    # django admin overwrite with grappelli
+    'grappelli',
     'django.contrib.admin',
 
     # 3rd party packages -> Load them last so we can override them
@@ -102,6 +103,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'auditlog.middleware.AuditlogMiddleware',
 ]
 
 

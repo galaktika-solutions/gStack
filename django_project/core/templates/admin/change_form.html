@@ -1,0 +1,18 @@
+{% extends "admin/change_form.html" %}
+{% load i18n %}
+{% load custom_temp_tags %}
+
+{% block object-tools-items %}
+    <li>
+      <a href="{% url 'admin:auditlog_logentry_changelist' %}?object_pk__exact={{object_id}}&content_type__id__exact={{content_type_id}}">
+        {% trans "History"|bleach_escape %}
+      </a>
+    </li>
+    {% if has_absolute_url %}
+      <li>
+        <a href="{{ absolute_url }}" class="grp-state-focus" target="_blank">
+          {% trans "View on site"|bleach_escape %}
+        </a>
+      </li>
+    {% endif%}
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+{% get_available_languages as LANGUAGES %}
+
+{% block extrastyle %}{{ block.super }}
+<style type="text/css">
+  div#grp-recent-actions-module.grp-module{
+    width: 460px;
+  }
+
+  .grp-user-options-container {
+    width: 400px !important;
+  }
+
+  .grp-user-options {
+    max-height: 500px;
+    overflow-y: scroll;
+    width: 402px !important;
+  }
+</style>
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+  <script>
+  (function($) {
+    $(document).ready(function() {
+      if (window.location.host === 'dev.gstacktest.net') {
+        $('#grp-admin-title').html('gStack DEV').css({color: 'white'});
+        $('#grp-navigation').css({backgroundImage: 'linear-gradient(#08A113,#343B0D)'});
+        $('.user-options-handler').css({color: 'white'});
+      } else if (window.location.host === 'test.gstacktest.net') {
+        $('#grp-admin-title').html('gStack TEST').css({color: 'white'});
+        $('#grp-navigation').css({
+            backgroundImage: 'linear-gradient(rgb(161, 144, 8), rgb(52, 59, 13))'});
+        $('.user-options-handler').css({color: 'white'});
+      } else if (window.location.host === 'mig.gstacktest.net') {
+        $('#grp-admin-title').html('gStack PROD').css({color: 'white'});
+        $('#grp-navigation').css({
+            backgroundImage: 'linear-gradient(rgb(161, 8, 8), rgb(52, 59, 13))'});
+        $('.user-options-handler').css({color: 'white'});
+      }
+    });
+  })(grp.jQuery);
+  </script>
+{% endblock %}
+
+{% block userlinks %}
+<li>
+  <form style="display: block; padding: 3px 10px;" action="/i18n/setlang/" method="post">
+    {% csrf_token %}
+    <select name="language" style="margin-top: 2px;">
+      {% for lang in LANGUAGES %}
+        <option
+          value="{{lang.0}}"
+          {% if lang.0 == LANGUAGE_CODE %} selected{% endif %}
+        >
+          {{lang.1}}
+        </option>
+      {% endfor %}
+    </select>
+    <input type="submit" style="padding: 7px 10px" value="Go">
+  </form>
+</li>
+{{ block.super }}
+{% endblock %}

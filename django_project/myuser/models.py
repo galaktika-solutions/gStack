@@ -128,7 +128,7 @@ class User(AbstractBaseUser):
         if self.id is not None:
             old = User.objects.get(pk=self.id)
         super().save()
-        if old is None or True:
+        if old is None:
             subject = _('New user is created')
 
             # create the email body with the Premailer (which can handle css also)

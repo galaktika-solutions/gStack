@@ -68,6 +68,7 @@ RUN pip install --no-cache-dir bleach==3.1.0
 RUN pip install --no-cache-dir easy-thumbnails==2.7
 RUN pip install --no-cache-dir django-compressor==2.3
 RUN pip install --no-cache-dir django-grappelli==2.13.4
+RUN pip install --no-cache-dir django-auditlog==0.4.7
 
 # copy
 COPY / /src
