@@ -7,12 +7,15 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 
 from .views import DjangoChannelsTestView, React
 
+# # grappelli need this
+# admin.autodiscover()
 
 api_patterns = [
     path("", include("core.urls_api")),
 ]
 
 urlpatterns = [
+    path('grappelli/', include('grappelli.urls')),
     path('admin/', admin.site.urls),
     path('explorer/', include('explorer.urls')),
     path('api/', include((api_patterns, 'api'), namespace='api')),

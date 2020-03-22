@@ -24,10 +24,6 @@ class Permission(models.Model):
     def __str__(self):
         return self.name
 
-    @staticmethod
-    def autocomplete_search_fields():
-        return ("name__icontains",)
-
 
 class Group(models.Model):
     name = models.CharField(_('Name'), max_length=30, unique=True)

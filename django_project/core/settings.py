@@ -3,13 +3,20 @@ from django.utils.translation import ugettext_lazy as _
 
 from .utils import read_secret
 
-
+# Global/Application Settings values
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SECRET_KEY = read_secret('DJANGO_SECRET_KEY')
 ENV = os.environ.get('ENV')
 VERSION = os.environ.get('VERSION')
 DEBUG = ENV == 'DEV'
 PROD = ENV == 'PROD'
+AUTH_USER_MODEL = 'myuser.User'  # Set up custom user model
 
+
+# Static/Media and other URL Settings
+ALLOWED_HOSTS = [os.environ.get('HOST_NAME'), os.environ.get('SERVER_IP')]
+BASE_URL = os.environ.get('HOST_NAME')
+ROOT_URLCONF = 'core.urls'
 STATIC_URL = '/static/'
 STATIC_ROOT = '/src/static/'
 LATEX_STATIC_ROOT = '/src/django_project/core/static/' if DEBUG else STATIC_ROOT
@@ -19,19 +26,14 @@ STATICFILES_FINDERS = (
     'compressor.finders.CompressorFinder'
 )
 STATICFILES_DIRS = ['/src/js_client/', ]
-
 MEDIA_ROOT = '/data/files/media/'
 MEDIA_URL = '/media/'
-ROOT_URLCONF = 'core.urls'
+LOGIN_URL = '/admin/'
 
-SECRET_KEY = read_secret('DJANGO_SECRET_KEY')
-ALLOWED_HOSTS = [os.environ.get('HOST_NAME'), os.environ.get('SERVER_IP')]
-BASE_URL = os.environ.get('HOST_NAME')
 
-# Email related settings
+# Email Settings
 ADMINS = [('IT Team', os.environ['ADMIN_EMAIL'])]
 EMAIL_BACKEND = 'email_backend.backend.CustomEmailBackend'
-
 SERVER_EMAIL = os.environ['SERVER_EMAIL']
 EMAIL_SUBJECT_PREFIX = '[%s] ' % os.environ.get('HOST_NAME')
 EMAIL_HOST = os.environ['EMAIL_HOST']
@@ -42,6 +44,20 @@ DEFAULT_FROM_EMAIL = os.environ['DEFAULT_FROM_EMAIL']
 EMAIL_USE_TLS = os.environ['EMAIL_USE_TLS']
 ADMIN_EMAIL = os.environ['ADMIN_EMAIL']
 
+
+# Grappelli Settings
+GRAPPELLI_ADMIN_TITLE = "gStack"
+GRAPPELLI_SWITCH_USER = not PROD
+GRAPPELLI_SWITCH_USER_ORIGINAL = lambda x: GRAPPELLI_SWITCH_USER  # NOQA: E731
+GRAPPELLI_SWITCH_USER_TARGET = lambda o, n: n.is_active  # NOQA: E731
+GRAPPELLI_AUTOCOMPLETE_SEARCH_FIELDS = {
+    "explorer": {
+        "query": ("id__iexact", "title__icontains",)
+    }
+}
+
+
+# INSTALLED_APPS Settings
 INSTALLED_APPS = [
     # django core packages -> Load them before anything else
     'django.contrib.auth',
@@ -59,6 +75,7 @@ INSTALLED_APPS = [
     'compressor',
     'django_filters',
     'easy_thumbnails',
+    'grappelli',
 
     # gStack packages
     'core',
@@ -74,6 +91,8 @@ INSTALLED_APPS = [
     'rosetta'
 ]
 
+
+# Middleware settings
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -85,6 +104,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
+# Debug only settings
 if DEBUG:
     INSTALLED_APPS.append('debug_toolbar')
     MIDDLEWARE.append(
@@ -94,6 +115,8 @@ if DEBUG:
         'SHOW_TOOLBAR_CALLBACK': lambda x: DEBUG
     }
 
+
+# Authentication Settings
 pwd_path = 'django.contrib.auth.password_validation.'
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -110,6 +133,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+# Django Templates Settings
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -125,15 +150,15 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
                 'core.context_processor.extra_context'
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'core.wsgi.application'
-ASGI_APPLICATION = "core.routing.application"
 
+# Django Channels settings
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
@@ -142,11 +167,11 @@ CHANNEL_LAYERS = {
         },
     },
 }
+WSGI_APPLICATION = 'core.wsgi.application'
+ASGI_APPLICATION = "core.routing.application"
 
-# Set up custom user model
-AUTH_USER_MODEL = 'myuser.User'
 
-# Database
+# Database Configuration
 db_password = read_secret('DB_PASSWORD')
 DATABASES = {
     'default': {
@@ -170,6 +195,8 @@ DATABASES = {
     },
 }
 
+
+# Rest Framework Configurations
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
@@ -191,8 +218,10 @@ REST_FRAMEWORK = {
 }
 
 
+# Django Explorer Configuration
 EXPLORER_DEFAULT_CONNECTION = 'explorer'
 EXPLORER_CONNECTIONS = {'Default': 'explorer'}
+EXPLORER_SQL_BLACKLIST = ('DJANGO_SESSION', 'AUTHTOKEN_TOKEN')
 EXPLORER_DATA_EXPORTERS = [
     ('csv', 'core.exporters.CSVExporterBOM'),
     ('excel', 'explorer.exporters.ExcelExporter'),
@@ -200,21 +229,20 @@ EXPLORER_DATA_EXPORTERS = [
 ]
 
 # Internationalization
-LANGUAGE_CODE = 'en'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = False
 USE_TZ = False
 
+
+# Translation & Rosetta Settings
+LANGUAGE_CODE = 'en'
 LANGUAGES = (
     ('en', _('English')),
     ('hu', _('Hungarian')),
 )
-
 LOCALE_PATHS = ('/data/files/locale/',)
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
-
-# ROSETTA
 ROSETTA_MESSAGES_PER_PAGE = 50
 CACHES = {
     'default': {
@@ -223,25 +251,20 @@ CACHES = {
     }
 }
 
+
+# Date/Datetime Format settings
 DATE_FORMAT = ('Y-m-d')
 DATETIME_FORMAT = ('Y-m-d H:i:s')
 TIME_FORMAT = ('H:i:s')
 
-# File Upload max 50MB
+
+# File Upload Settings max 50MB
 DATA_UPLOAD_MAX_MEMORY_SIZE = 52428800
 FILE_UPLOAD_MAX_MEMORY_SIZE = 52428800
 FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o750
 FILE_UPLOAD_PERMISSIONS = 0o640
 
-# Set up custom user model
-# AUTH_USER_MODEL =
-
-# After a successful authentication this is where we go
-# LOGIN_REDIRECT_URL =
-
-# The login page is also the start page too
-LOGIN_URL = '/admin/'
-
+# Security Settings
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True

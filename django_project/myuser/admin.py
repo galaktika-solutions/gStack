@@ -54,8 +54,6 @@ class UserCreationForm(forms.ModelForm):
 class UserPermissionInline(admin.TabularInline):
     model = UserPermission
     extra = 0
-    raw_id_fields = ('permission', )
-    autocomplete_lookup_fields = {'fk': raw_id_fields}
 
 
 class MembershipInline(admin.TabularInline):
