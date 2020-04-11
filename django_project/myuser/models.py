@@ -9,7 +9,8 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.db import transaction
 from django.core.mail import EmailMessage
 from easy_thumbnails.fields import ThumbnailerImageField
-from premailer import Premailer
+
+from core.utils import ImprovedPremailer
 log = logging.getLogger('django')
 
 
@@ -132,7 +133,7 @@ class User(AbstractBaseUser):
             subject = _('New user is created')
 
             # create the email body with the Premailer (which can handle css also)
-            body = Premailer(
+            body = ImprovedPremailer(
                 loader.render_to_string(
                     template_name='emails/new_user.html',
                     context={
