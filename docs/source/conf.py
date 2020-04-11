@@ -181,8 +181,8 @@ texinfo_documents = [(
     author,
     os.environ.get('COMPOSE_PROJECT_NAME'),
     'One line description of project.',
-    'Miscellaneous'),
-]
+    'Miscellaneous'
+), ]
 
 autodoc_default_flags = ['members', 'special-members']
 autodoc_member_order = 'bysource'
@@ -198,16 +198,18 @@ def process_docstring(app, what, name, obj, options, lines):
             lines[1] = ''
             template = '* :class:`%s` at ``%s``'
             for item in obj:
-                lines.append(template % (item.lookup_str, item.regex.pattern))
+                lines.append(template % (repr(item), item.pattern))
             obj = []
         # SimpleRouter processor
         elif isinstance(obj, SimpleRouter):
             template = '* :meth:`%s.%s` at ``%s``'
             for item in obj.urls:
-                lines.append(template % (
-                    item.lookup_str,
-                    '_'.join(item.name.split('-')[1:]),
-                    item.regex.pattern)
+                lines.append(
+                    template % (
+                        item.lookup_str,
+                        '_'.join(item.name.split('-')[1:]),
+                        item.pattern
+                    )
                 )
         # auditlog app register processor
         elif isinstance(obj, list) and '.apps.models_to_register' in name:

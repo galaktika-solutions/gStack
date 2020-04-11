@@ -16,8 +16,11 @@ class AuditLogAppConfig(AppConfig):
             auditlog.register(obj, exclude_fields=exclude)
 
 
+models_to_register = [
+    ('KeyValueStore', []),
+]
+
+
 class Config(AuditLogAppConfig):
     name = 'core'
-    models_to_register = [
-        ('KeyValueStore', []),
-    ]
+    models_to_register = models_to_register
