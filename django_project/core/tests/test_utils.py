@@ -1,10 +1,7 @@
-# coding: utf-8
-# Django core and 3rd party imports
 from django.test import TestCase
 from django.conf import settings
 import django
 
-# Project imports
 from core.utils import read_secret
 
 

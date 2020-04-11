@@ -21,3 +21,4 @@ premailer==3.6.1
 bleach==3.1.0
 easy-thumbnails==2.7
 django-compressor==2.3
+factory_boy==2.12.0

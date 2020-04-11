@@ -69,6 +69,7 @@ RUN pip install --no-cache-dir easy-thumbnails==2.7
 RUN pip install --no-cache-dir django-compressor==2.3
 RUN pip install --no-cache-dir django-grappelli==2.13.4
 RUN pip install --no-cache-dir django-auditlog==0.4.7
+RUN pip install --no-cache-dir factory_boy==2.12.0
 
 # copy
 COPY / /src
