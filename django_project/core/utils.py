@@ -1,5 +1,6 @@
 import os.path
 import codecs
+from collections import OrderedDict
 from django.contrib.staticfiles import finders
 from rest_framework.relations import PrimaryKeyRelatedField
 from premailer import Premailer
@@ -66,3 +67,34 @@ class DictPKRelatedField(PrimaryKeyRelatedField):
 
     def to_representation(self, value):
         return getattr(self.parent, self.method_name)(value)
+
+
+def csv_field(header_name):
+    def decorator(fnc):
+        fnc._header_name = header_name
+        return fnc
+    return decorator
+
+
+class CSVDataRow(object):
+    @classmethod
+    def _fields(cls):
+        fields = [f for f in cls.__dict__.values()]
+        fields = [f for f in fields if hasattr(f, '_header_name')]
+        return fields
+
+    @classmethod
+    def _header(cls):
+        return [f._header_name for f in cls._fields()]
+
+    def __getattribute__(self, field):
+        attr = object.__getattribute__(self, field)
+        if hasattr(attr, '_header_name'):
+            return attr()
+        return attr
+
+    def _json(self):
+        return OrderedDict([(f._header_name, f(self)) for f in self._fields()])
+
+    def _list(self):
+        return [f(self) for f in self._fields()]
