@@ -4,13 +4,14 @@ from django.views.generic import TemplateView
 from rest_framework.viewsets import ModelViewSet
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
+from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext
 
 from .models import KeyValueStore
 from .serializers import KeyValueStoreSerializer
-from .mixins import NoJsonPaginationMixin
 
 
-class KeyValueStoreViewset(NoJsonPaginationMixin, ModelViewSet):
+class KeyValueStoreViewset(ModelViewSet):
     """ Contains Technical informations. """
     serializer_class = KeyValueStoreSerializer
     queryset = KeyValueStore.objects.all()
@@ -23,10 +24,10 @@ class DjangoChannelsTestView(View):
             'everybody', {
                 'type': 'message',
                 'topic': 'test',
-                'data': 'Hello everybody.'
+                'data': ugettext('Hello everybody.')
             }
         )
-        return HttpResponse('Message was sent to everybody.')
+        return HttpResponse(_('Message was sent to everybody.'))
 
 
 class React(TemplateView):

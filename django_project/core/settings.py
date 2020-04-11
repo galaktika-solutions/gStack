@@ -153,7 +153,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.request',
-                'core.context_processor.extra_context'
+                'core.helpers.extra_context'
             ],
         },
     },
@@ -203,20 +203,14 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ),
-    # Use this if you want to disable the form on the BrowsableAPIRenderer
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
-        'core.renderers.BrowsableAPIRendererWithoutForm',
+        'core.helpers.BrowsableAPIRendererWithoutForm',
     ),
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
     ),
-    'DEFAULT_PAGINATION_CLASS': (
-        'rest_framework.pagination.PageNumberPagination'
-    ),
-    'PAGE_SIZE': 10,
-    'MAX_PAGE_SIZE': 1000,
-    'PAGINATE_BY_PARAM': 'page_size'
+    'DEFAULT_PAGINATION_CLASS': 'core.helpers.HTMLOnlyPagination'
 }
 
 
@@ -225,7 +219,7 @@ EXPLORER_DEFAULT_CONNECTION = 'explorer'
 EXPLORER_CONNECTIONS = {'Default': 'explorer'}
 EXPLORER_SQL_BLACKLIST = ('DJANGO_SESSION', 'AUTHTOKEN_TOKEN')
 EXPLORER_DATA_EXPORTERS = [
-    ('csv', 'core.exporters.CSVExporterBOM'),
+    ('csv', 'core.helpers.CSVExporterBOM'),
     ('excel', 'explorer.exporters.ExcelExporter'),
     ('json', 'explorer.exporters.JSONExporter')
 ]
