@@ -11,6 +11,7 @@ from .views import DjangoChannelsTestView, React
 
 api_patterns = [
     path("core/", include("core.urls_api")),
+    path("myuser/", include("myuser.urls_api")),
 ]
 
 urlpatterns = [

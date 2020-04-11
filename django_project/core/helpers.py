@@ -1,6 +1,9 @@
 from django.conf import settings
+from django.utils.encoding import force_text
 from rest_framework.pagination import PageNumberPagination, _positive_int
 from rest_framework.renderers import BrowsableAPIRenderer
+from rest_framework.metadata import SimpleMetadata
+from rest_framework import serializers
 from explorer.exporters import CSVExporter
 from six import BytesIO
 
@@ -53,3 +56,27 @@ class HTMLOnlyPagination(PageNumberPagination):
             )
         except (KeyError, ValueError):
             return None
+
+
+class ImprovedMetadata(SimpleMetadata):
+    """
+    | We want to see the choices all the time even when the field is read_only.
+    | We use the same code as the original except the read_only check.
+    """
+    def get_field_info(self, field):
+        field_info = super().get_field_info(field)
+        if (
+            not isinstance(
+                field,
+                (serializers.RelatedField, serializers.ManyRelatedField)
+            )
+            and hasattr(field, 'choices')
+        ):
+            field_info['choices'] = [
+                {
+                    'value': choice_value,
+                    'display_name': force_text(choice_name, strings_only=True)
+                }
+                for choice_value, choice_name in field.choices.items()
+            ]
+        return field_info
