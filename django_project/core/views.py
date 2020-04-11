@@ -30,7 +30,11 @@ class KeyValueStoreViewset(
 ):
     """ Contains Technical informations. """
     serializer_class = KeyValueStoreSerializer
-    queryset = KeyValueStore.objects.all()
+    queryset = (
+        KeyValueStore.objects.all()
+        .select_related(*serializer_class.get_select_related())
+        .prefetch_related(*serializer_class.get_prefetch_related())
+    )
     filter_fields = ('key', )
 
 
