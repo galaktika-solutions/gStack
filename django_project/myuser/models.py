@@ -134,7 +134,7 @@ class User(AbstractBaseUser):
             # create the email body with the Premailer (which can handle css also)
             body = Premailer(
                 loader.render_to_string(
-                    template_name='email_templates/new_user.html',
+                    template_name='emails/new_user.html',
                     context={
                         'text': subject,
                         'subject': subject,

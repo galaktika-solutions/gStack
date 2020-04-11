@@ -16,7 +16,7 @@ def hello_world_pdf(ctx, language="en", preview=True, user=None):
         }
 
     return render_to_pdf(
-        template_src='hello_world.tex',
+        template_src='pdf/hello_world.tex',
         filename='hello_world',
         context_dict=ctx,
         email=email
