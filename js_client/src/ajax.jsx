@@ -1,21 +1,21 @@
 /* global $, gettext */
-var _ = require("lodash");
+import _ from "lodash";
 
-var IsEmpty = require("../utils/is_empty.js");
+import IsEmpty from "../utils/is_empty.js";
 import Cookies from "js-cookie";
 
-var Ajax = function(options) {
-  var statusCode;
+let Ajax = function(options) {
+  let statusCode;
   // DEFAULT VALUES
-  var default500 = function() {
+  let default500 = function() {
     window.alert(gettext("Internal Server Error!") + "\n" + gettext("Please contact an admin!"));
   };
 
-  var default504 = function() {
+  let default504 = function() {
     window.alert(gettext("Request Timeout!") + "\n" + gettext("Please contact an admin!"));
   };
 
-  var default400 = function(jqXHR) {
+  let default400 = function(jqXHR) {
     const response = jqXHR.responseJSON;
     let title = "";
     let message = [];
@@ -26,39 +26,39 @@ var Ajax = function(options) {
     window.alert(gettext("Warning!") + "\n" + message.join("\n"));
   };
 
-  var default403 = function() {
+  let default403 = function() {
     window.alert(gettext("Permission denied!"));
   };
 
-  var default404 = function() {
+  let default404 = function() {
     window.location.hash = "#/notfound/";
   };
 
-  var default401 = function() {
+  let default401 = function() {
     window.location.href = window.location.origin;
   };
 
-  var default413 = function() {
+  let default413 = function() {
     window.alert(
       gettext("The file size is too big!") + "\n" + gettext("The maximum file size is 50MB!")
     );
   };
 
-  var default415 = function() {
+  let default415 = function() {
     window.alert(
       gettext("Unsopported Media Type!") + "\n" + gettext("This format is not supported!")
     );
   };
 
-  var default205 = function() {
+  let default205 = function() {
     document.location.reload(true);
   };
 
-  var default204 = function() {
+  let default204 = function() {
     window.alert(gettext("The Item successfully deleted!"));
   };
 
-  var default201 = function() {
+  let default201 = function() {
     window.alert(gettext("The Item successfully created!"));
   };
 
@@ -83,7 +83,7 @@ var Ajax = function(options) {
   }
   options.headers = {version: document.body.getAttribute("version")};
 
-  var originalBeforeSend = options.beforeSend;
+  let originalBeforeSend = options.beforeSend;
   options.beforeSend = (xhr, settings) => {
     if (originalBeforeSend !== undefined) {
       originalBeforeSend(xhr, settings);
@@ -93,8 +93,8 @@ var Ajax = function(options) {
     }
   };
 
-  var ajax = $.ajax(options);
+  let ajax = $.ajax(options);
   return ajax;
 };
 
-module.exports = Ajax;
+export default Ajax;

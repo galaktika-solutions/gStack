@@ -1,14 +1,11 @@
 /* global gettext */
-var React = require("react");
-var ReactDOM = require("react-dom");
-var ReactRouter = require("react-router");
-var Router = ReactRouter.Router;
-var Route = ReactRouter.Route;
-var useRouterHistory = ReactRouter.useRouterHistory;
-var createHashHistory = require("history").createHashHistory;
+import React from "react";
+import ReactDOM from "react-dom";
+import {Router, Route, useRouterHistory} from "react-router";
+import {createHashHistory} from "history";
 
-var App = require("./app.jsx");
-var Dashboard = require("./dashboard.jsx");
+import App from "./app.jsx";
+import Dashboard from "./dashboard.jsx";
 
 class NotFound extends React.PureComponent {
   render() {
@@ -21,7 +18,7 @@ class NotFound extends React.PureComponent {
   }
 }
 
-var routes = (
+let routes = (
   <Route component={App}>
     {/* Dashboard */}
     <Route path="/" component={Dashboard} />
@@ -32,9 +29,9 @@ var routes = (
   </Route>
 );
 
-var history = useRouterHistory(createHashHistory)();
+let hashHistory = useRouterHistory(createHashHistory)();
 
 ReactDOM.render(
-  <Router history={history}>{routes}</Router>,
+  <Router history={hashHistory}>{routes}</Router>,
   document.getElementsByClassName("react-root")[0]
 );

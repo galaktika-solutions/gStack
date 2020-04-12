@@ -1,8 +1,8 @@
 /* global gettext */
-var React = require("react");
+import React from "react";
 
-var Ajax = require("./ajax.jsx");
-var AbortRequests = require("../utils/abort_requests.js");
+import Ajax from "./ajax.jsx";
+import AbortRequests from "../utils/abort_requests.js";
 
 class Dashboard extends React.PureComponent {
   constructor(props) {
@@ -34,4 +34,4 @@ class Dashboard extends React.PureComponent {
   }
 }
 
-module.exports = Dashboard;
+export default Dashboard;

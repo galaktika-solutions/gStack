@@ -1,5 +1,5 @@
-var PropTypes = require("prop-types");
-var React = require("react");
+import React from "react";
+import PropTypes from "prop-types";
 
 class App extends React.PureComponent {
   render() {
@@ -12,4 +12,4 @@ App.propTypes = {
   location: PropTypes.object
 };
 
-module.exports = App;
+export default App;
