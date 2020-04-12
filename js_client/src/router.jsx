@@ -1,8 +1,7 @@
 /* global gettext */
 import React from "react";
 import ReactDOM from "react-dom";
-import {Router, Route, useRouterHistory} from "react-router";
-import {createHashHistory} from "history";
+import {HashRouter as Router, Switch, Route} from "react-router-dom";
 
 import App from "./app.jsx";
 import Dashboard from "./dashboard.jsx";
@@ -18,20 +17,18 @@ class NotFound extends React.PureComponent {
   }
 }
 
-let routes = (
-  <Route component={App}>
-    {/* Dashboard */}
-    <Route path="/" component={Dashboard} />
-
-    {/* Other */}
-    <Route path="/notfound/" component={NotFound} />
-    <Route path="*" component={NotFound} />
-  </Route>
-);
-
-let hashHistory = useRouterHistory(createHashHistory)();
-
 ReactDOM.render(
-  <Router history={hashHistory}>{routes}</Router>,
+  <Router>
+    <App>
+      <Switch>
+        {/* Dashboard */}
+        <Route exact path="/" component={Dashboard} />
+
+        {/* Other */}
+        <Route path="/notfound/" component={NotFound} />
+        <Route path="*" component={NotFound} />
+      </Switch>
+    </App>
+  </Router>,
   document.getElementsByClassName("react-root")[0]
 );
