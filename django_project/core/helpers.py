@@ -1,5 +1,7 @@
 from django.conf import settings
 from django.utils.encoding import force_text
+from django.http import HttpResponse
+from django.utils.translation import ugettext_lazy as _
 from rest_framework.pagination import PageNumberPagination, _positive_int
 from rest_framework.renderers import BrowsableAPIRenderer
 from rest_framework.metadata import SimpleMetadata
@@ -80,3 +82,20 @@ class ImprovedMetadata(SimpleMetadata):
                 for choice_value, choice_name in field.choices.items()
             ]
         return field_info
+
+
+class ResetContentMiddleware(object):
+    def __init__(self, get_response=None):
+        self.get_response = get_response
+        super(ResetContentMiddleware, self).__init__()
+
+    def process_request(self, request):
+        version = request.META.get('HTTP_VERSION')
+        if version and version != settings.VERSION:
+            return HttpResponse(_('Bad version, reload!'), status=205)
+
+    def __call__(self, request):
+        response = self.process_request(request)
+        if response is None:
+            response = self.get_response(request)
+        return response

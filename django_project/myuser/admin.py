@@ -113,7 +113,6 @@ class GroupAdmin(admin.ModelAdmin):
     list_display_links = list_display
     search_fields = ['name', ]
     list_per_page = 20
-    model = Group
     inlines = [GroupPermissionInline, ]
 
 
@@ -123,7 +122,6 @@ class PermissionAdmin(admin.ModelAdmin):
     list_display_links = list_display
     search_fields = ['name', ]
     list_per_page = 20
-    model = Permission
 
 
 @admin.register(Membership)
@@ -134,4 +132,3 @@ class MembershipAdmin(admin.ModelAdmin):
     list_filter = ('group', 'user')
     raw_id_fields = ('user', )
     autocomplete_lookup_fields = {'fk': raw_id_fields}
-    model = Membership
