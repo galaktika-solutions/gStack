@@ -6,7 +6,7 @@ SharedRouter = SimpleRouter()
 SharedRouter.register(
     'key_value_store',
     KeyValueStoreViewset,
-    base_name='key_value_store'
+    basename='key_value_store'
 )
 
 urlpatterns = SharedRouter.urls

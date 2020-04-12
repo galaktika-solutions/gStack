@@ -6,7 +6,7 @@ SharedRouter = SimpleRouter()
 SharedRouter.register(
     'user',
     UserViewset,
-    base_name='user'
+    basename='user'
 )
 
 urlpatterns = SharedRouter.urls
