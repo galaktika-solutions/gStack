@@ -15,7 +15,8 @@ def extra_context(request):
     return dict(
         servername=settings.BASE_URL,
         PROD=settings.PROD,
-        VERSION=settings.VERSION
+        VERSION=settings.VERSION,
+        LANGUAGES=[[x[0], x[1]] for x in settings.LANGUAGES]
     )
 
 

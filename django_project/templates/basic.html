@@ -1,13 +1,31 @@
 {% load staticfiles %}
 {% load i18n %}
 {% load compress %}
+{% get_current_language as LANGUAGE_CODE %}
 
 <html>
   <head>
-    <link rel="shortcut icon" type="image/ico" href="{% static 'images/favicon.ico' %}" />
-    <title>gStack</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Fashi Template">
+    <meta name="keywords" content="Fashi, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Fashi | Template</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Muli:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
     {% compress css %}
-      <link href="{% static 'css/base.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'node_modules/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'node_modules/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'node_modules/@icon/themify-icons/themify-icons.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'node_modules/elegant-icons/style.css' %}" rel="stylesheet" type="text/css" type="text/css">
+    <link href="{% static 'node_modules/flag-icon-css/css/flag-icon.min.css' %}" rel="stylesheet" type="text/css" type="text/css">
+    <link href="{% static 'node_modules/slicknav/dist/slicknav.min.css' %}" rel="stylesheet" type="text/css" type="text/css">
+    <link href="{% static 'css/base.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/extra.css' %}" rel="stylesheet" type="text/css">
+
     {% endcompress %}
   </head>
   <body data-user-id="{{user.id}}" version="{{VERSION}}">
@@ -15,10 +33,20 @@
     <!-- JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
     <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery-3.5.0.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'node_modules/slicknav/dist/jquery.slicknav.min.js' %}"></script>
     {% compress js %}
     <script>
-      var websocket = new WebSocket('wss://' + window.location.host +'/ws/')
-      websocket.onmessage = (event) => {console.log(event)}
+      var config = {
+        'languages': {{ LANGUAGES|safe }},
+        'currentLanguage': '{{ LANGUAGE_CODE }}',
+        'staticUrl': '{% static '' %}',
+        'flagMap': {
+          'en': 'gb',
+          'hu': 'hu'
+        }
+      };
+      var websocket = new WebSocket('wss://' + window.location.host +'/ws/');
+      websocket.onmessage = (event) => {console.log(event)};
     </script>
     <script type="text/javascript" src="{% static 'build.js' %}"></script>
     {% endcompress %}

@@ -239,6 +239,7 @@ LANGUAGES = (
     ('en', _('English')),
     ('hu', _('Hungarian')),
 )
+
 LOCALE_PATHS = ('/data/files/locale/',)
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 ROSETTA_MESSAGES_PER_PAGE = 50

@@ -28,6 +28,7 @@ build:
 build_js_only:
 	$(devcompose) docker-compose run --rm build_js npm install
 	$(devcompose) docker-compose run --rm build_js build
+	$(devcompose) docker-compose run --rm django collectstatic
 
 create_dev_certificates:
 	docker-compose run --rm -u $(usr) -w /src/.files postgres ./create_dev_certificates.sh
