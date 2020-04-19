@@ -382,6 +382,197 @@ class Dashboard extends React.PureComponent {
           </Carousel.Item>
         </Carousel>
         {/* <!-- Hero Section End --> */}
+
+        {/* <!-- Banner Section Begin --> */}
+        <div className="banner-section spad">
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-lg-4">
+                <div className="single-banner">
+                  <img src={`${config.staticUrl}images/banner-1.jpg`} alt="" />
+                  <div className="inner-text">
+                    <h4>Men’s</h4>
+                  </div>
+                </div>
+              </div>
+              <div className="col-lg-4">
+                <div className="single-banner">
+                  <img src={`${config.staticUrl}images/banner-2.jpg`} alt="" />
+                  <div className="inner-text">
+                    <h4>Women’s</h4>
+                  </div>
+                </div>
+              </div>
+              <div className="col-lg-4">
+                <div className="single-banner">
+                  <img src={`${config.staticUrl}images/banner-3.jpg`} alt="" />
+                  <div className="inner-text">
+                    <h4>Kid’s</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* <!-- Banner Section End --> */}
+
+        {/* <!-- Women Banner Section Begin --> */}
+        <section className="women-banner spad">
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-lg-3">
+                <div
+                  className="product-large"
+                  style={{
+                    backgroundImage: `url(${config.staticUrl}images/products/women-large.jpg)`
+                  }}
+                >
+                  <h2>Women’s</h2>
+                  <a href="#">Discover More</a>
+                </div>
+              </div>
+              <div className="col-lg-8 offset-lg-1">
+                <div className="filter-control">
+                  <ul>
+                    <li className="active">Clothings</li>
+                    <li>HandBag</li>
+                    <li>Shoes</li>
+                    <li>Accessories</li>
+                  </ul>
+                </div>
+                <Carousel>
+                  <Carousel.Item className="col-4">
+                    <img
+                      className="d-block w-100"
+                      src={`${config.staticUrl}images/products/women-1.jpg`}
+                      alt="First slide"
+                    />
+                    <Carousel.Caption>
+                      <div className="product-item">
+                        <div className="pi-pic">
+                          <div className="sale">Sale</div>
+                          <div className="icon">
+                            <i className="icon_heart_alt" />
+                          </div>
+                          <ul>
+                            <li className="w-icon active">
+                              <a href="#">
+                                <i className="icon_bag_alt" />
+                              </a>
+                            </li>
+                            <li className="quick-view">
+                              <a href="#">+ Quick View</a>
+                            </li>
+                            <li className="w-icon">
+                              <a href="#">
+                                <i className="fa fa-random" />
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                        <div className="pi-text">
+                          <div className="catagory-name">Coat</div>
+                          <a href="#">
+                            <h5>Pure Pineapple</h5>
+                          </a>
+                          <div className="product-price">
+                            $14.00
+                            <span>$35.00</span>
+                          </div>
+                        </div>
+                      </div>
+                    </Carousel.Caption>
+                  </Carousel.Item>
+                  <Carousel.Item className="col-4">
+                    <img
+                      className="d-block w-100"
+                      src={`${config.staticUrl}images/products/women-2.jpg`}
+                      alt="First slide"
+                    />
+                    <Carousel.Caption>
+                      <div className="product-item">
+                        <div className="pi-pic">
+                          <div className="sale">Sale</div>
+                          <div className="icon">
+                            <i className="icon_heart_alt" />
+                          </div>
+                          <ul>
+                            <li className="w-icon active">
+                              <a href="#">
+                                <i className="icon_bag_alt" />
+                              </a>
+                            </li>
+                            <li className="quick-view">
+                              <a href="#">+ Quick View</a>
+                            </li>
+                            <li className="w-icon">
+                              <a href="#">
+                                <i className="fa fa-random" />
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                        <div className="pi-text">
+                          <div className="catagory-name">Coat</div>
+                          <a href="#">
+                            <h5>Pure Pineapple</h5>
+                          </a>
+                          <div className="product-price">
+                            $14.00
+                            <span>$35.00</span>
+                          </div>
+                        </div>
+                      </div>
+                    </Carousel.Caption>
+                  </Carousel.Item>
+                  <Carousel.Item className="col-4">
+                    <img
+                      className="d-block w-100"
+                      src={`${config.staticUrl}images/products/women-3.jpg`}
+                      alt="First slide"
+                    />
+                    <Carousel.Caption>
+                      <div className="product-item">
+                        <div className="pi-pic">
+                          <div className="sale">Sale</div>
+                          <div className="icon">
+                            <i className="icon_heart_alt" />
+                          </div>
+                          <ul>
+                            <li className="w-icon active">
+                              <a href="#">
+                                <i className="icon_bag_alt" />
+                              </a>
+                            </li>
+                            <li className="quick-view">
+                              <a href="#">+ Quick View</a>
+                            </li>
+                            <li className="w-icon">
+                              <a href="#">
+                                <i className="fa fa-random" />
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                        <div className="pi-text">
+                          <div className="catagory-name">Coat</div>
+                          <a href="#">
+                            <h5>Pure Pineapple</h5>
+                          </a>
+                          <div className="product-price">
+                            $14.00
+                            <span>$35.00</span>
+                          </div>
+                        </div>
+                      </div>
+                    </Carousel.Caption>
+                  </Carousel.Item>
+                </Carousel>
+              </div>
+            </div>
+          </div>
+        </section>
+        {/* <!-- Women Banner Section End --> */}
         <div style={{height: "4000px"}}>
           asd
           <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
