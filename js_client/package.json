@@ -25,6 +25,7 @@
     "react-loaders": "3.0.1",
     "react-select": "3.1.0",
     "flag-icon-css": "3.4.6",
-    "slicknav": "1.0.8"
+    "slicknav": "1.0.8",
+    "react-multi-carousel": "2.5.5"
   }
 }

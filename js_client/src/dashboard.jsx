@@ -5,6 +5,7 @@ import {Loader} from "react-loaders";
 import Dropdown from "react-bootstrap/Dropdown";
 import Carousel from "react-bootstrap/Carousel";
 import _ from "lodash";
+import {default as MultiCarousel} from "react-multi-carousel";
 
 import Ajax from "./ajax.jsx";
 import AbortRequests from "../utils/abort_requests.js";
@@ -218,15 +219,15 @@ class Dashboard extends React.PureComponent {
                           </table>
                         </div>
                         <div className="select-total">
-                          <span>total:</span>
+                          <span>{gettext("total:")}</span>
                           <h5>$120.00</h5>
                         </div>
                         <div className="select-button">
                           <a href="#" className="primary-btn view-card">
-                            VIEW CARD
+                            {gettext("VIEW CARD")}
                           </a>
                           <a href="#" className="primary-btn checkout-btn">
-                            CHECK OUT
+                            {gettext("CHECK OUT")}
                           </a>
                         </div>
                       </div>
@@ -242,19 +243,19 @@ class Dashboard extends React.PureComponent {
               <div className="nav-depart">
                 <div className="depart-btn">
                   <i className="ti ti-menu" />
-                  <span>All departments</span>
+                  <span>{gettext("All departments")}</span>
                   <ul className="depart-hover">
                     <li className="active">
-                      <a href="#">Women’s Clothing</a>
+                      <a href="#">{gettext("Women’s Clothing")}</a>
                     </li>
                     <li>
-                      <a href="#">Men’s Clothing</a>
+                      <a href="#">{gettext("Men’s Clothing")}</a>
                     </li>
                     <li>
-                      <a href="#">Underwear</a>
+                      <a href="#">{gettext("Underwear")}</a>
                     </li>
                     <li>
-                      <a href="#">Kid's Clothing</a>
+                      <a href="#">{gettext("Kid's Clothing")}</a>
                     </li>
                     <li>
                       <a href="#">Brand Fashion</a>
@@ -280,7 +281,7 @@ class Dashboard extends React.PureComponent {
                     <a href="./shop.html">Shop</a>
                   </li>
                   <li>
-                    <a href="#">Collection</a>
+                    <span>Collection</span>
                     <ul className="dropdown">
                       <li>
                         <a href="#">Men's</a>
@@ -300,7 +301,7 @@ class Dashboard extends React.PureComponent {
                     <a href="./contact.html">Contact</a>
                   </li>
                   <li>
-                    <a href="#">Pages</a>
+                    <span>Pages</span>
                     <ul className="dropdown">
                       <li>
                         <a href="./blog-details.html">Blog Details</a>
@@ -440,134 +441,120 @@ class Dashboard extends React.PureComponent {
                     <li>Accessories</li>
                   </ul>
                 </div>
-                <Carousel>
-                  <Carousel.Item className="col-4">
+                <MultiCarousel
+                  infinite={true}
+                  autoPlay={true}
+                  draggable={false}
+                  autoPlaySpeed={4000}
+                  responsive={{
+                    superLargeDesktop: {
+                      // the naming can be any, depends on you.
+                      breakpoint: {max: 4000, min: 3000},
+                      items: 5
+                    },
+                    desktop: {
+                      breakpoint: {max: 3000, min: 1024},
+                      items: 3
+                    },
+                    tablet: {
+                      breakpoint: {max: 1024, min: 464},
+                      items: 2
+                    },
+                    mobile: {
+                      breakpoint: {max: 464, min: 0},
+                      items: 1
+                    }
+                  }}
+                >
+                  <div style={{padding: "0px 10px"}}>
                     <img
                       className="d-block w-100"
                       src={`${config.staticUrl}images/products/women-1.jpg`}
                       alt="First slide"
                     />
-                    <Carousel.Caption>
-                      <div className="product-item">
-                        <div className="pi-pic">
-                          <div className="sale">Sale</div>
-                          <div className="icon">
-                            <i className="icon_heart_alt" />
-                          </div>
-                          <ul>
-                            <li className="w-icon active">
-                              <a href="#">
-                                <i className="icon_bag_alt" />
-                              </a>
-                            </li>
-                            <li className="quick-view">
-                              <a href="#">+ Quick View</a>
-                            </li>
-                            <li className="w-icon">
-                              <a href="#">
-                                <i className="fa fa-random" />
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="pi-text">
-                          <div className="catagory-name">Coat</div>
-                          <a href="#">
-                            <h5>Pure Pineapple</h5>
-                          </a>
-                          <div className="product-price">
-                            $14.00
-                            <span>$35.00</span>
-                          </div>
+                    <div className="product-item">
+                      <div className="pi-pic">
+                        <div className="sale">Sale</div>
+                      </div>
+                      <div className="pi-text">
+                        <div className="catagory-name">Coat</div>
+                        <a href="#">
+                          <h5>Pure Pineapple</h5>
+                        </a>
+                        <div className="product-price">
+                          $14.00
+                          <span>$35.00</span>
                         </div>
                       </div>
-                    </Carousel.Caption>
-                  </Carousel.Item>
-                  <Carousel.Item className="col-4">
+                    </div>
+                  </div>
+                  <div style={{padding: "0px 10px"}}>
                     <img
                       className="d-block w-100"
                       src={`${config.staticUrl}images/products/women-2.jpg`}
                       alt="First slide"
                     />
-                    <Carousel.Caption>
-                      <div className="product-item">
-                        <div className="pi-pic">
-                          <div className="sale">Sale</div>
-                          <div className="icon">
-                            <i className="icon_heart_alt" />
-                          </div>
-                          <ul>
-                            <li className="w-icon active">
-                              <a href="#">
-                                <i className="icon_bag_alt" />
-                              </a>
-                            </li>
-                            <li className="quick-view">
-                              <a href="#">+ Quick View</a>
-                            </li>
-                            <li className="w-icon">
-                              <a href="#">
-                                <i className="fa fa-random" />
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="pi-text">
-                          <div className="catagory-name">Coat</div>
-                          <a href="#">
-                            <h5>Pure Pineapple</h5>
-                          </a>
-                          <div className="product-price">
-                            $14.00
-                            <span>$35.00</span>
-                          </div>
+                    <div className="product-item">
+                      <div className="pi-pic">
+                        <div className="sale">Sale</div>
+                      </div>
+                      <div className="pi-text">
+                        <div className="catagory-name">Coat</div>
+                        <a href="#">
+                          <h5>Pure Pineapple</h5>
+                        </a>
+                        <div className="product-price">
+                          $14.00
+                          <span>$35.00</span>
                         </div>
                       </div>
-                    </Carousel.Caption>
-                  </Carousel.Item>
-                  <Carousel.Item className="col-4">
+                    </div>
+                  </div>
+                  <div style={{padding: "0px 10px"}}>
                     <img
                       className="d-block w-100"
                       src={`${config.staticUrl}images/products/women-3.jpg`}
                       alt="First slide"
                     />
-                    <Carousel.Caption>
-                      <div className="product-item">
-                        <div className="pi-pic">
-                          <div className="sale">Sale</div>
-                          <div className="icon">
-                            <i className="icon_heart_alt" />
-                          </div>
-                          <ul>
-                            <li className="w-icon active">
-                              <a href="#">
-                                <i className="icon_bag_alt" />
-                              </a>
-                            </li>
-                            <li className="quick-view">
-                              <a href="#">+ Quick View</a>
-                            </li>
-                            <li className="w-icon">
-                              <a href="#">
-                                <i className="fa fa-random" />
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                        <div className="pi-text">
-                          <div className="catagory-name">Coat</div>
-                          <a href="#">
-                            <h5>Pure Pineapple</h5>
-                          </a>
-                          <div className="product-price">
-                            $14.00
-                            <span>$35.00</span>
-                          </div>
+                    <div className="product-item">
+                      <div className="pi-pic">
+                        <div className="sale">Sale</div>
+                      </div>
+                      <div className="pi-text">
+                        <div className="catagory-name">Coat</div>
+                        <a href="#">
+                          <h5>Pure Pineapple</h5>
+                        </a>
+                        <div className="product-price">
+                          $14.00
+                          <span>$35.00</span>
                         </div>
                       </div>
-                    </Carousel.Caption>
-                  </Carousel.Item>
-                </Carousel>
+                    </div>
+                  </div>
+                  <div style={{padding: "0px 10px"}}>
+                    <img
+                      className="d-block w-100"
+                      src={`${config.staticUrl}images/products/women-4.jpg`}
+                      alt="First slide"
+                    />
+                    <div className="product-item">
+                      <div className="pi-pic">
+                        <div className="sale">Sale</div>
+                      </div>
+                      <div className="pi-text">
+                        <div className="catagory-name">Coat</div>
+                        <a href="#">
+                          <h5>Pure Pineapple</h5>
+                        </a>
+                        <div className="product-price">
+                          $14.00
+                          <span>$35.00</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </MultiCarousel>
               </div>
             </div>
           </div>
