@@ -560,6 +560,434 @@ class Dashboard extends React.PureComponent {
           </div>
         </section>
         {/* <!-- Women Banner Section End --> */}
+
+        {/* <!-- Deal Of The Week Section Begin--> */}
+        <section
+          className="deal-of-week set-bg spad"
+          style={{backgroundImage: `url(${config.staticUrl}images/time-bg.jpg)`, color: "red"}}
+        >
+          <div className="container">
+            <div className="col-lg-6 text-center">
+              <div className="section-title">
+                <h2>Deal Of The Week</h2>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
+                  <br /> do ipsum dolor sit amet, consectetur adipisicing elit{" "}
+                </p>
+                <div className="product-price">
+                  $35.00
+                  <span>/ HanBag</span>
+                </div>
+              </div>
+              <div className="countdown-timer" id="countdown">
+                <div className="cd-item">
+                  <span>56</span>
+                  <p>Days</p>
+                </div>
+                <div className="cd-item">
+                  <span>12</span>
+                  <p>Hrs</p>
+                </div>
+                <div className="cd-item">
+                  <span>40</span>
+                  <p>Mins</p>
+                </div>
+                <div className="cd-item">
+                  <span>52</span>
+                  <p>Secs</p>
+                </div>
+              </div>
+              <a href="#" className="primary-btn">
+                Shop Now
+              </a>
+            </div>
+          </div>
+        </section>
+        {/* <!-- Deal Of The Week Section End --> */}
+
+        {/* <!-- Man Banner Section Begin --> */}
+        <section className="man-banner spad">
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-lg-8">
+                <div className="filter-control">
+                  <ul>
+                    <li className="active">Clothings</li>
+                    <li>HandBag</li>
+                    <li>Shoes</li>
+                    <li>Accessories</li>
+                  </ul>
+                </div>
+                <MultiCarousel
+                  infinite={true}
+                  autoPlay={true}
+                  draggable={false}
+                  autoPlaySpeed={4000}
+                  responsive={{
+                    superLargeDesktop: {
+                      // the naming can be any, depends on you.
+                      breakpoint: {max: 4000, min: 3000},
+                      items: 5
+                    },
+                    desktop: {
+                      breakpoint: {max: 3000, min: 1024},
+                      items: 3
+                    },
+                    tablet: {
+                      breakpoint: {max: 1024, min: 464},
+                      items: 2
+                    },
+                    mobile: {
+                      breakpoint: {max: 464, min: 0},
+                      items: 1
+                    }
+                  }}
+                >
+                  <div style={{padding: "0px 10px"}}>
+                    <img
+                      className="d-block w-100"
+                      src={`${config.staticUrl}images/products/man-1.jpg`}
+                      alt="First slide"
+                    />
+                    <div className="product-item">
+                      <div className="pi-pic">
+                        <div className="sale">Sale</div>
+                      </div>
+                      <div className="pi-text">
+                        <div className="catagory-name">Coat</div>
+                        <a href="#">
+                          <h5>Pure Pineapple</h5>
+                        </a>
+                        <div className="product-price">
+                          $14.00
+                          <span>$35.00</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div style={{padding: "0px 10px"}}>
+                    <img
+                      className="d-block w-100"
+                      src={`${config.staticUrl}images/products/man-2.jpg`}
+                      alt="First slide"
+                    />
+                    <div className="product-item">
+                      <div className="pi-pic">
+                        <div className="sale">Sale</div>
+                      </div>
+                      <div className="pi-text">
+                        <div className="catagory-name">Coat</div>
+                        <a href="#">
+                          <h5>Pure Pineapple</h5>
+                        </a>
+                        <div className="product-price">
+                          $14.00
+                          <span>$35.00</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div style={{padding: "0px 10px"}}>
+                    <img
+                      className="d-block w-100"
+                      src={`${config.staticUrl}images/products/man-3.jpg`}
+                      alt="First slide"
+                    />
+                    <div className="product-item">
+                      <div className="pi-pic">
+                        <div className="sale">Sale</div>
+                      </div>
+                      <div className="pi-text">
+                        <div className="catagory-name">Coat</div>
+                        <a href="#">
+                          <h5>Pure Pineapple</h5>
+                        </a>
+                        <div className="product-price">
+                          $14.00
+                          <span>$35.00</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div style={{padding: "0px 10px"}}>
+                    <img
+                      className="d-block w-100"
+                      src={`${config.staticUrl}images/products/man-4.jpg`}
+                      alt="First slide"
+                    />
+                    <div className="product-item">
+                      <div className="pi-pic">
+                        <div className="sale">Sale</div>
+                      </div>
+                      <div className="pi-text">
+                        <div className="catagory-name">Coat</div>
+                        <a href="#">
+                          <h5>Pure Pineapple</h5>
+                        </a>
+                        <div className="product-price">
+                          $14.00
+                          <span>$35.00</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </MultiCarousel>
+              </div>
+              <div className="col-lg-3 offset-lg-1">
+                <div
+                  className="product-large"
+                  style={{
+                    backgroundImage: `url(${config.staticUrl}images/products/man-large.jpg)`
+                  }}
+                >
+                  <h2>Man’s</h2>
+                  <a href="#">Discover More</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        {/* <!-- Man Banner Section End --> */}
+
+        {/* <!-- Instagram Section Begin --> */}
+        <div className="instagram-photo">
+          <div
+            className="insta-item set-bg"
+            style={{
+              backgroundImage: `url(${config.staticUrl}images/insta-1.jpg)`
+            }}
+          >
+            <div className="inside-text">
+              <i className="ti ti-instagram" />
+              <h5>
+                <a href="#">colorlib_Collection</a>
+              </h5>
+            </div>
+          </div>
+          <div
+            className="insta-item set-bg"
+            style={{
+              backgroundImage: `url(${config.staticUrl}images/insta-2.jpg)`
+            }}
+          >
+            <div className="inside-text">
+              <i className="ti ti-instagram" />
+              <h5>
+                <a href="#">colorlib_Collection</a>
+              </h5>
+            </div>
+          </div>
+          <div
+            className="insta-item set-bg"
+            style={{
+              backgroundImage: `url(${config.staticUrl}images/insta-3.jpg)`
+            }}
+          >
+            <div className="inside-text">
+              <i className="ti ti-instagram" />
+              <h5>
+                <a href="#">colorlib_Collection</a>
+              </h5>
+            </div>
+          </div>
+          <div
+            className="insta-item set-bg"
+            style={{
+              backgroundImage: `url(${config.staticUrl}images/insta-4.jpg)`
+            }}
+          >
+            <div className="inside-text">
+              <i className="ti ti-instagram" />
+              <h5>
+                <a href="#">colorlib_Collection</a>
+              </h5>
+            </div>
+          </div>
+          <div
+            className="insta-item set-bg"
+            style={{
+              backgroundImage: `url(${config.staticUrl}images/insta-5.jpg)`
+            }}
+          >
+            <div className="inside-text">
+              <i className="ti ti-instagram" />
+              <h5>
+                <a href="#">colorlib_Collection</a>
+              </h5>
+            </div>
+          </div>
+          <div
+            className="insta-item set-bg"
+            style={{
+              backgroundImage: `url(${config.staticUrl}images/insta-6.jpg)`
+            }}
+          >
+            <div className="inside-text">
+              <i className="ti ti-instagram" />
+              <h5>
+                <a href="#">colorlib_Collection</a>
+              </h5>
+            </div>
+          </div>
+        </div>
+        {/* <!-- Instagram Section End --> */}
+
+        {/* <!-- Latest Blog Section Begin --> */}
+        <section className="latest-blog spad">
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-12">
+                <div className="section-title">
+                  <h2>From The Blog</h2>
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-lg-4 col-md-6">
+                <div className="single-latest-blog">
+                  <img src={`${config.staticUrl}images/latest-1.jpg`} alt="" />
+                  <div className="latest-text">
+                    <div className="tag-list">
+                      <div className="tag-item">
+                        <i className="fa fa-calendar-o" style={{marginRight: "3px"}} />
+                        May 4,2019
+                      </div>
+                      <div className="tag-item">
+                        <i className="fa fa-comment-o" style={{marginRight: "3px"}} />5
+                      </div>
+                    </div>
+                    <a href="#">
+                      <h4>The Best Street Style From London Fashion Week</h4>
+                    </a>
+                    <p>
+                      Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam
+                      quaerat{" "}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="col-lg-4 col-md-6">
+                <div className="single-latest-blog">
+                  <img src={`${config.staticUrl}images/latest-2.jpg`} alt="" />
+                  <div className="latest-text">
+                    <div className="tag-list">
+                      <div className="tag-item">
+                        <i className="fa fa-calendar-o" style={{marginRight: "3px"}} />
+                        May 4,2019
+                      </div>
+                      <div className="tag-item">
+                        <i className="fa fa-comment-o" style={{marginRight: "3px"}} />5
+                      </div>
+                    </div>
+                    <a href="#">
+                      <h4>Vogue's Ultimate Guide To Autumn/Winter 2019 Shoes</h4>
+                    </a>
+                    <p>
+                      Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam
+                      quaerat{" "}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="col-lg-4 col-md-6">
+                <div className="single-latest-blog">
+                  <img src={`${config.staticUrl}images/latest-3.jpg`} alt="" />
+                  <div className="latest-text">
+                    <div className="tag-list">
+                      <div className="tag-item">
+                        <i className="fa fa-calendar-o" style={{marginRight: "3px"}} />
+                        May 4,2019
+                      </div>
+                      <div className="tag-item">
+                        <i className="fa fa-comment-o" style={{marginRight: "3px"}} />5
+                      </div>
+                    </div>
+                    <a href="#">
+                      <h4>How To Brighten Your Wardrobe With A Dash Of Lime</h4>
+                    </a>
+                    <p>
+                      Sed quia non numquam modi tempora indunt ut labore et dolore magnam aliquam
+                      quaerat{" "}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="benefit-items">
+              <div className="row">
+                <div className="col-lg-4">
+                  <div className="single-benefit">
+                    <div className="sb-icon">
+                      <img src={`${config.staticUrl}images/icon-1.png`} alt="" />
+                    </div>
+                    <div className="sb-text">
+                      <h6>Free Shipping</h6>
+                      <p>For all order over 99$</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-lg-4">
+                  <div className="single-benefit">
+                    <div className="sb-icon">
+                      <img src={`${config.staticUrl}images/icon-2.png`} alt="" />
+                    </div>
+                    <div className="sb-text">
+                      <h6>Delivery On Time</h6>
+                      <p>If good have prolems</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-lg-4">
+                  <div className="single-benefit">
+                    <div className="sb-icon">
+                      <img src={`${config.staticUrl}images/icon-3.png`} alt="" />
+                    </div>
+                    <div className="sb-text">
+                      <h6>Secure Payment</h6>
+                      <p>100% secure payment</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        {/* <!-- Latest Blog Section End --> */}
+
+        {/* <!-- Partner Logo Section Begin --> */}
+        <div className="partner-logo">
+          <div className="container">
+            <div className="logo-carousel owl-carousel">
+              <div className="logo-item">
+                <div className="tablecell-inner">
+                  <img src={`${config.staticUrl}images/logo-carousel/logo-1.png`} alt="" />
+                </div>
+              </div>
+              <div className="logo-item">
+                <div className="tablecell-inner">
+                  <img src={`${config.staticUrl}images/logo-carousel/logo-2.png`} alt="" />
+                </div>
+              </div>
+              <div className="logo-item">
+                <div className="tablecell-inner">
+                  <img src={`${config.staticUrl}images/logo-carousel/logo-3.png`} alt="" />
+                </div>
+              </div>
+              <div className="logo-item">
+                <div className="tablecell-inner">
+                  <img src={`${config.staticUrl}images/logo-carousel/logo-4.png`} alt="" />
+                </div>
+              </div>
+              <div className="logo-item">
+                <div className="tablecell-inner">
+                  <img src={`${config.staticUrl}images/logo-carousel/logo-5.png`} alt="" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* <!-- Partner Logo Section End --> */}
+
         <div style={{height: "4000px"}}>
           asd
           <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />

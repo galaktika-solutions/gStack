@@ -204,12 +204,28 @@
 }
 
 .react-multiple-carousel__arrow--left {
-  left: calc(2% + 1px);
+  left: 0px;
 }
 .react-multiple-carousel__arrow--right {
-  right: calc(2% + 1px);
+  right: 0px;
 }
 
 .product-item .pi-text .product-price span {
   margin-left: 10px;
+}
+
+.react-multiple-carousel__arrow::before {
+  color: #171717;
+  font-size: 27px;
+}
+.react-multiple-carousel__arrow:hover {
+  background: transparent;
+}
+
+.react-multiple-carousel__arrow--left {
+  background-color: transparent;
+}
+
+.react-multiple-carousel__arrow--right {
+  background-color: transparent;
 }
