@@ -229,3 +229,12 @@
 .react-multiple-carousel__arrow--right {
   background-color: transparent;
 }
+
+.partner-logo {
+  padding: 38px 0px 28px 0px;
+}
+
+.logo-item {
+  text-align: center;
+  margin-bottom: 10px;
+}
