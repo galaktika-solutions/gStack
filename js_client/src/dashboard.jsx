@@ -6,6 +6,8 @@ import Dropdown from "react-bootstrap/Dropdown";
 import Carousel from "react-bootstrap/Carousel";
 import _ from "lodash";
 import {default as MultiCarousel} from "react-multi-carousel";
+import Countdown from "react-countdown";
+import moment from "moment";
 
 import Ajax from "./ajax.jsx";
 import AbortRequests from "../utils/abort_requests.js";
@@ -579,24 +581,34 @@ class Dashboard extends React.PureComponent {
                   <span>/ HanBag</span>
                 </div>
               </div>
-              <div className="countdown-timer" id="countdown">
-                <div className="cd-item">
-                  <span>56</span>
-                  <p>Days</p>
-                </div>
-                <div className="cd-item">
-                  <span>12</span>
-                  <p>Hrs</p>
-                </div>
-                <div className="cd-item">
-                  <span>40</span>
-                  <p>Mins</p>
-                </div>
-                <div className="cd-item">
-                  <span>52</span>
-                  <p>Secs</p>
-                </div>
-              </div>
+              <Countdown
+                date={moment()
+                  .add(56, "days")
+                  .add(12, "hours")
+                  .add(40, "minutes")
+                  .add(52, "seconds")}
+                renderer={props => (
+                  <div className="countdown-timer" id="countdown">
+                    <div className="cd-item">
+                      <span>{props.days}</span>
+                      <p>Days</p>
+                    </div>
+                    <div className="cd-item">
+                      <span>{props.hours}</span>
+                      <p>Hrs</p>
+                    </div>
+                    <div className="cd-item">
+                      <span>{props.minutes}</span>
+                      <p>Mins</p>
+                    </div>
+                    <div className="cd-item">
+                      <span>{props.seconds}</span>
+                      <p>Secs</p>
+                    </div>
+                  </div>
+                )}
+              />
+
               <a href="#" className="primary-btn">
                 Shop Now
               </a>
@@ -957,31 +969,29 @@ class Dashboard extends React.PureComponent {
         {/* <!-- Partner Logo Section Begin --> */}
         <div className="partner-logo">
           <div className="container">
-            <div className="logo-carousel owl-carousel">
-              <div className="logo-item">
-                <div className="tablecell-inner">
-                  <img src={`${config.staticUrl}images/logo-carousel/logo-1.png`} alt="" />
-                </div>
+            <div className="logo-item">
+              <div className="tablecell-inner">
+                <img src={`${config.staticUrl}images/logo-carousel/logo-1.png`} alt="" />
               </div>
-              <div className="logo-item">
-                <div className="tablecell-inner">
-                  <img src={`${config.staticUrl}images/logo-carousel/logo-2.png`} alt="" />
-                </div>
+            </div>
+            <div className="logo-item">
+              <div className="tablecell-inner">
+                <img src={`${config.staticUrl}images/logo-carousel/logo-2.png`} alt="" />
               </div>
-              <div className="logo-item">
-                <div className="tablecell-inner">
-                  <img src={`${config.staticUrl}images/logo-carousel/logo-3.png`} alt="" />
-                </div>
+            </div>
+            <div className="logo-item">
+              <div className="tablecell-inner">
+                <img src={`${config.staticUrl}images/logo-carousel/logo-3.png`} alt="" />
               </div>
-              <div className="logo-item">
-                <div className="tablecell-inner">
-                  <img src={`${config.staticUrl}images/logo-carousel/logo-4.png`} alt="" />
-                </div>
+            </div>
+            <div className="logo-item">
+              <div className="tablecell-inner">
+                <img src={`${config.staticUrl}images/logo-carousel/logo-4.png`} alt="" />
               </div>
-              <div className="logo-item">
-                <div className="tablecell-inner">
-                  <img src={`${config.staticUrl}images/logo-carousel/logo-5.png`} alt="" />
-                </div>
+            </div>
+            <div className="logo-item">
+              <div className="tablecell-inner">
+                <img src={`${config.staticUrl}images/logo-carousel/logo-5.png`} alt="" />
               </div>
             </div>
           </div>

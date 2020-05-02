@@ -26,6 +26,8 @@
     "react-select": "3.1.0",
     "flag-icon-css": "3.4.6",
     "slicknav": "1.0.8",
-    "react-multi-carousel": "2.5.5"
+    "react-multi-carousel": "2.5.5",
+    "react-countdown": "2.2.1",
+    "moment": "2.25.1"
   }
 }
